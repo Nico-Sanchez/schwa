@@ -1,0 +1,80 @@
+{
+"es": {
+ "name": {"en": "Spanish (Latin America)", "es": "Español (Latinoamérica)"},
+ "lang": {"en": "Spanish", "es": "español"},
+ "vowels": true,
+ "prio": ["ii-i","ae-uh","o-ou","oo-ou","er-oo","b-v","s-z","th-t","th-s","dh-d","sh-ch","y-dj"],
+ "notes": {
+  "iː": {"diff":1,"cmp":"Como la i de «sí», pero más larga y tensa.","err":"Acortarla y confundirla con /ɪ/: «leave» termina sonando como «live»."},
+  "ɪ": {"diff":2,"cmp":"No existe en español. Queda entre nuestra i y nuestra e: di «i» aflojando toda la boca.","err":"Decirla como una i española, y entonces «ship» suena «sheep». Es la confusión más común de los hispanohablantes."},
+  "ʊ": {"diff":2,"cmp":"Queda entre la u y la o del español.","err":"Hacerla igual que /uː/: «full» y «fool» terminan sonando idénticas."},
+  "uː": {"diff":1,"cmp":"Como la u de «luna», pero más larga.","err":"Acortarla. Y ojo: muchas palabras escritas con u llevan /j/ delante: «music» es /ˈmjuːzɪk/."},
+  "e": {"diff":0,"cmp":"Prácticamente la e del español.","err":"Casi ninguno. El riesgo es confundirla con /æ/ («bed» y «bad») o con /eɪ/ («let» y «late»)."},
+  "ə": {"diff":2,"cmp":"No existe en español. Es el sonido que haces cuando dudas («eh…»), pero más corto y neutro.","err":"Pronunciar cada vocal como se escribe: «banana» con tres a españolas. Es la marca número uno del acento hispano."},
+  "ɜː": {"diff":2,"cmp":"No existe en español. Se parece a la «eu» del francés, pero sin redondear los labios.","err":"Decir una e o una o más una r fuerte. Y confundir «work» con «walk», que lleva /ɔː/."},
+  "ɔː": {"diff":1,"cmp":"Como una o española, más larga y con los labios más redondos.","err":"Acortarla o convertirla en /əʊ/: «walk» y «woke», «caught» y «coat» son palabras distintas."},
+  "æ": {"diff":2,"cmp":"No existe en español. Queda entre nuestra a y nuestra e.","err":"Decir una a española, que al oído inglés suena a /ʌ/: «cat» se confunde con «cut» y «bag» con «bug»."},
+  "ʌ": {"diff":1,"cmp":"Es lo más parecido a nuestra a, pero más corta y algo más cerrada.","err":"Leerla según la letra: «love» con o, «country» con ou. Muchas veces se escribe con o y suena casi como una a."},
+  "ɑː": {"diff":1,"cmp":"Una a española más larga y más de garganta.","err":"Hacerla corta. En británico tampoco suena la r de «car»."},
+  "ɒ": {"diff":1,"cmp":"Entre la a y la o del español: abre la boca como para una a y redondea un poco los labios.","err":"Decir una o española cerrada, y «not» suena casi como «note»."},
+  "ɪə": {"diff":1,"cmp":"Como «ía», pero con la segunda parte floja, sin llegar a la a.","err":"Pronunciar la r escrita: en británico «here» no la tiene, salvo que siga una vocal."},
+  "eɪ": {"diff":0,"cmp":"Como «ei» en «rey» o «seis».","err":"Hacer solo una e: «late» suena «let» y «wait» suena «wet»."},
+  "ʊə": {"diff":0,"cmp":"Como una «úa» floja.","err":"Ninguno grave: es raro y muchos británicos ya no lo usan."},
+  "ɔɪ": {"diff":0,"cmp":"Como «oy» en «hoy».","err":"Casi ninguno: es de los más fáciles."},
+  "əʊ": {"diff":2,"cmp":"No es una o española: empieza con la «e» de duda y cierra hacia u, como «eu».","err":"Decir una o pura, y «phone» suena «fon». También confundir «woke» con «walk»."},
+  "eə": {"diff":1,"cmp":"Como una e larga y abierta.","err":"Agregar una r fuerte al final."},
+  "aɪ": {"diff":0,"cmp":"Como «ai» en «baile» o «hay».","err":"Leer la i como i española, y «time» suena «tim»."},
+  "aʊ": {"diff":0,"cmp":"Como «au» en «auto» o «causa».","err":"Pronunciar «ow» siempre igual: «now» es /aʊ/ pero «know» es /əʊ/."},
+  "p": {"diff":1,"cmp":"Como la p española, más un soplido al principio de palabra.","err":"Sin soplido, a un nativo «pin» le puede sonar a «bin». Prueba con un papel delante de la boca: se tiene que mover."},
+  "b": {"diff":1,"cmp":"Como la b de «bomba». En español, entre vocales la b se afloja («cabo»); en inglés nunca.","err":"Mezclar b y v. En español son el mismo sonido; en inglés, «berry» y «very» son palabras distintas."},
+  "t": {"diff":1,"cmp":"Parecida a la t española, pero más atrás: tocas la encía, no los dientes.","err":"Hacerla dental como en español, sin soplido."},
+  "d": {"diff":1,"cmp":"Como la d de «dedo» al principio. En español se afloja entre vocales («nada»); en inglés siempre es un golpe firme.","err":"Aflojarla, y «ladder» suena con /ð/. O no pronunciarla al final: «red» termina sonando «re»."},
+  "tʃ": {"diff":0,"cmp":"Igual que la ch de «chico».","err":"Usarla donde va /ʃ/: «ship» suena «chip» y «shoes» suena «choose»."},
+  "dʒ": {"diff":1,"cmp":"Como la y enfática de «¡yo!» en muchos países: una «ch» con vibración.","err":"Confundirla con /j/: «Yale» y «jail», «yet» y «jet» terminan sonando igual."},
+  "k": {"diff":0,"cmp":"Como la c de «casa», con soplido.","err":"Casi ninguno. El soplido ayuda a que «cold» no suene «gold»."},
+  "g": {"diff":0,"cmp":"Como la g de «gato». No la aflojes entre vocales, como pasa en «agua».","err":"Agregarla donde no va: en «singer» no hay /g/."},
+  "f": {"diff":0,"cmp":"Igual que la f española.","err":"Ninguno. Recuerda que «ph» y a veces «gh» suenan /f/."},
+  "v": {"diff":2,"cmp":"No existe en español: nuestra v suena igual que la b.","err":"Decir b: «very» suena «berry» y «vote» suena «boat». Apoya los dientes en el labio y zumba."},
+  "θ": {"diff":2,"cmp":"Es la z o la c de España («zapato», «cielo»). En Latinoamérica no se usa.","err":"Cambiarla por t, s o f: «think» suena «tink» o «sink», y «three» suena «tree»."},
+  "ð": {"diff":2,"cmp":"Es la d suave de «nada» o «cada» cuando la dices relajada. ¡Ya la tienes!","err":"Decir una d fuerte: «they» suena «day» y «then» suena «den». Está en las palabras más usadas: the, this, that, they."},
+  "s": {"diff":1,"cmp":"Igual que nuestra s, pero en inglés se pronuncia siempre completa, también al final.","err":"Poner una e delante: «school» → «eschool», «Spain» → «Espain»."},
+  "z": {"diff":2,"cmp":"No existe como sonido propio en español. Solo aparece de pasada, como en «mismo» dicho rápido.","err":"Decir s: «zoo» suena «su» y «eyes» suena «ice». Muchas s escritas suenan /z/: is, was, has, music."},
+  "ʃ": {"diff":2,"cmp":"No existe en la mayoría de los dialectos del español. Es el «shh» de pedir silencio.","err":"Decir ch: «ship» suena «chip» y «she» suena «chi»."},
+  "ʒ": {"diff":2,"cmp":"No existe en la mayoría de los dialectos del español. Es /ʃ/ con zumbido.","err":"Cambiarla por /dʒ/ o por una y: «usual» y «measure» suenan forzadas."},
+  "m": {"diff":0,"cmp":"Igual que la m española.","err":"Ninguno. Al final de palabra cierra bien los labios: «time», «come»."},
+  "n": {"diff":0,"cmp":"Igual que la n española.","err":"Ninguno. Recuerda que en «kn» la k es muda: «know», «knife»."},
+  "ŋ": {"diff":1,"cmp":"Es la n de «tengo» o «banco»: ya la tienes, pero en inglés también aparece al final de palabra.","err":"Cambiarla por /n/ («thing» suena «thin») o agregarle una g al final («sing-g»)."},
+  "h": {"diff":1,"cmp":"Mucho más suave que la j de «jamón». No raspa la garganta.","err":"Hacerla j fuerte o directamente no decirla: «hat» suena «at». Y hay h mudas: «hour», «honest»."},
+  "l": {"diff":1,"cmp":"Al principio es como la l española. Al final («ball», «milk») suena más hueca.","err":"Hacer clara la l final, como en español: «milk» suena muy latino."},
+  "r": {"diff":2,"cmp":"No existe en español: no es la r de «pero» ni la de «perro».","err":"Hacerla vibrar. Y en británico, la r después de vocal no suena («car» es /kɑː/) salvo que siga otra vocal."},
+  "w": {"diff":1,"cmp":"Como la u de «huevo» o «cuando».","err":"Agregarle una g: «would» suena «güud» y «woman» suena «guman»."},
+  "j": {"diff":1,"cmp":"Es la i de «hielo» o «tierra».","err":"Hacerla muy fuerte, casi /dʒ/: «yes» suena «jes» y «Yale» suena «jail»."}
+ }
+},
+"es-ES": {
+ "base": "es",
+ "name": {"en": "Spanish (Spain)", "es": "Español (España)"},
+ "lang": {"en": "Spanish", "es": "español"},
+ "vowels": true,
+ "prio": ["ii-i","ae-uh","o-ou","oo-ou","er-oo","b-v","s-z","dh-d","sh-ch","y-dj","h-0"],
+ "notes": {
+  "θ": {"diff":0,"cmp":"Es la z o la c de «zapato» o «cielo». ¡Ya la tienes!","err":"Usarla donde va /s/ porque se escribe con c: «city» es /ˈsɪti/, no «zity»."},
+  "h": {"diff":1,"cmp":"Mucho más suave que la j de «jamón», que en España raspa bastante.","err":"Hacerla j fuerte: «hello» suena «jello» y «house» suena «jaus»."}
+ }
+},
+"es-AR": {
+ "base": "es",
+ "name": {"en": "Spanish (Río de la Plata)", "es": "Español rioplatense"},
+ "lang": {"en": "Spanish", "es": "español"},
+ "vowels": true,
+ "prio": ["ii-i","ae-uh","o-ou","oo-ou","er-oo","b-v","s-z","th-t","th-s","dh-d","y-dj"],
+ "notes": {
+  "ʃ": {"diff":0,"cmp":"¡La tienes! Es la ll o la y rioplatense de «lluvia» o «yo».","err":"Usarla donde va /j/ o /dʒ/: «yes» suena «shes»."},
+  "ʒ": {"diff":0,"cmp":"Es la y rioplatense sonora, la de quienes dicen «yo» con zumbido.","err":"Casi ninguno. Además es poco frecuente en inglés."},
+  "j": {"diff":2,"cmp":"Es la i de «hielo» o «tierra». ¡No es la y rioplatense!","err":"El error rioplatense por excelencia: «yes» suena «shes» y «you» suena «shu». Piensa «ies», «iu»."},
+  "dʒ": {"diff":2,"cmp":"Como la y enfática de «¡yo!», pero arrancando con una d.","err":"Decir la «sh» rioplatense: «job» suena «shob» y «juice» suena «shus». Empieza con una d."},
+  "tʃ": {"diff":0,"cmp":"Igual que la ch de «chico».","err":"Ninguno grave. Solo distínguela bien de /ʃ/: «chair» y «share», «watch» y «wash»."},
+  "s": {"diff":1,"cmp":"Igual que nuestra s, pero en inglés se pronuncia siempre completa, también al final.","err":"Dos clásicos: poner una e delante («school» → «eschool») y aspirarla al final, como en «loh chicoh»."}
+ }
+}
+}

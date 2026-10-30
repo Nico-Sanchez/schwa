@@ -1,0 +1,73 @@
+[
+{"title":{"en":"Get to know the symbols","es":"Conocer los símbolos"},
+ "sub":{"en":"Link each symbol to a sound and a key word.","es":"Asociar cada símbolo con un sonido y una palabra clave."},
+ "items":[
+  {"name":"English File · Pronunciation chart (Oxford)","url":"https://elt.oup.com/student/englishfile/intermediate3/pronunciation?cc=global&selLanguage=en","tags":["free","UK"],
+   "pro":{"en":"The classic clickable chart from the English File course: 44 pictures, click and it plays.","es":"La tabla clásica del curso English File: 44 dibujos, haces clic y suena."},
+   "con":{"en":"It doesn't show the word in writing or explain how to make the sound.","es":"No muestra la palabra escrita ni explica cómo se hace el sonido."}},
+  {"name":"BBC Learning English · The Sounds of English","url":"https://www.bbc.co.uk/learningenglish/english/features/pronunciation","tags":["free","UK"],
+   "pro":{"en":"A short video for each sound, with the mouth seen from the front.","es":"Un video corto por sonido, con la boca de frente."},
+   "con":{"en":"Videos are titled «Short vowels 3» and there's no index by symbol.","es":"Los videos se llaman «Short vowels 3» y no hay un índice por símbolo."}},
+  {"name":"Adrian Underhill's chart","url":"https://adrianunderhill.com/the-pronunciation-charts/","tags":["free","UK","US"],
+   "pro":{"en":"The chart teachers use, laid out by position in the mouth. Schwa's chart follows the same order.","es":"La tabla que usan los profesores, ordenada según la posición en la boca. La tabla de Schwa respeta ese orden."},
+   "con":{"en":"Today it's only an image; the interactive app is gone.","es":"Hoy es solo una imagen; la app interactiva dejó de existir."}}
+ ]},
+{"title":{"en":"Understand how each sound is made","es":"Entender cómo se hace cada sonido"},
+ "sub":{"en":"See what the tongue, lips and jaw are doing.","es":"Ver qué hacen la lengua, los labios y la mandíbula."},
+ "items":[
+  {"name":"Adrian Underhill · Pronunciation Skills","url":"https://www.youtube.com/playlist?list=PLbEWGLATRxw_2hL5hY164nvHdTpwhEOXC","tags":["free","UK"],
+   "pro":{"en":"40 short videos to feel in your body where each sound is made.","es":"40 videos cortos para sentir en el cuerpo dónde se arma cada sonido."},
+   "con":{"en":"Made for teachers, but easy to follow.","es":"Pensados para profesores, pero se entienden."}},
+  {"name":"Sounds of Speech (University of Iowa)","url":"https://soundsofspeech.uiowa.edu","tags":["app_paid","US"],
+   "pro":{"en":"An animated cross-section of the mouth, plus video and audio. The app explains things in Spanish too.","es":"Corte animado de la boca por dentro, video y audio. La app trae explicaciones en español."},
+   "con":{"en":"English is no longer on the website, only in the app.","es":"El inglés ya no está en la web, solo en la app."}},
+  {"name":"Seeing Speech (University of Glasgow)","url":"https://www.seeingspeech.ac.uk/ipa-charts/","tags":["free","ipa_general"],
+   "pro":{"en":"MRI and ultrasound of the tongue while it speaks. Eye-opening for /r/ or /θ/.","es":"Resonancias magnéticas y ultrasonido de la lengua mientras habla. Impresionante para entender /r/ o /θ/."},
+   "con":{"en":"These are general IPA sounds, not English ones, and the interface is academic.","es":"Son los sonidos del IPA en general, no los del inglés, y la interfaz es académica."}}
+ ]},
+{"title":{"en":"Words and minimal pairs","es":"Palabras y pares mínimos"},
+ "sub":{"en":"Read the transcription of any word and train your ear.","es":"Leer la transcripción de cualquier palabra y entrenar el oído."},
+ "items":[
+  {"name":"Oxford Learner's Dictionaries","url":"https://www.oxfordlearnersdictionaries.com","tags":["free","UK","US"],
+   "pro":{"en":"IPA plus British and American audio for every word, with the same symbols as this chart.","es":"IPA y audio británico y americano de cada palabra, con la misma notación que esta tabla."},
+   "con":{"en":"Its symbol guide has no audio.","es":"Su guía de símbolos no tiene audio."}},
+  {"name":"Cambridge Dictionary","url":"https://dictionary.cambridge.org","tags":["free","UK","US"],
+   "pro":{"en":"The same, with good recordings.","es":"Lo mismo, con buenas grabaciones."},
+   "con":{"en":"It has ads and doesn't let you compare words.","es":"Tiene publicidad y no permite comparar palabras."}},
+  {"name":"English Accent Coach","url":"https://www.englishaccentcoach.com","tags":["free","US"],
+   "pro":{"en":"Ear training with many different voices, backed by research.","es":"Entrenamiento de oído con muchas voces distintas. Está probado en investigación."},
+   "con":{"en":"The interface is from 2012 and uses its own notation.","es":"Su interfaz es de 2012 y usa su propia notación."}},
+  {"name":"English Pronunciation in Use · Ship or Sheep?","url":"https://www.cambridge.es/catalogo/gramatica-vocabulario-y-pronunciacion/pronunciacion/english-pronunciation-in-use","tags":["books","UK"],
+   "pro":{"en":"The classic exercise books, with audio.","es":"Los clásicos de ejercicios, con audio."},
+   "con":{"en":"Paper books, with no feedback.","es":"Son libros en papel, sin corrección."}}
+ ]},
+{"title":{"en":"Connected speech, rhythm and intonation","es":"Habla conectada, ritmo y entonación"},
+ "sub":{"en":"How words sound when they're joined, weak syllables and melody.","es":"Cómo suenan las palabras pegadas, las sílabas débiles y la melodía."},
+ "items":[
+  {"name":"YouGlish","url":"https://youglish.com","tags":["free","UK","US"],
+   "pro":{"en":"Any word said in thousands of real videos, with adjustable speed.","es":"Cualquier palabra dicha en miles de videos reales, con la velocidad regulable."},
+   "con":{"en":"You can't search by sound.","es":"No se puede buscar por sonido."}},
+  {"name":"Dr Geoff Lindsey (YouTube)","url":"https://www.youtube.com/@DrGeoffLindsey","tags":["free","UK"],
+   "pro":{"en":"The best guide to how English is spoken today, compared with the «RP» of textbooks.","es":"El mejor para entender cómo se habla hoy, comparado con el «RP» de los libros."},
+   "con":{"en":"He assumes you know the symbols. Ideal after this chart.","es":"Supone que ya conoces los símbolos. Ideal después de esta tabla."}},
+  {"name":"BBC · Tim's Pronunciation Workshop","url":"https://www.bbc.co.uk/learningenglish/english/features/pronunciation","tags":["free","UK"],
+   "pro":{"en":"75 episodes on schwa, linking and sounds that disappear.","es":"75 episodios sobre schwa, palabras pegadas y sonidos que desaparecen."},
+   "con":{"en":"From 2017, but still current.","es":"Son de 2017, pero siguen vigentes."}},
+  {"name":"ELSA Speak · BoldVoice","url":"https://elsaspeak.com","tags":["paid","US"],
+   "pro":{"en":"They listen to you with AI and score each sound.","es":"Te escuchan con IA y te ponen puntaje por sonido."},
+   "con":{"en":"The score is opaque and they don't teach the symbols. Mostly American accent.","es":"El puntaje es opaco y no enseñan los símbolos. Son casi solo acento americano."}}
+ ]},
+{"title":{"en":"Advanced","es":"Avanzado"},
+ "sub":{"en":"For when you want the fine detail.","es":"Para cuando te interese el detalle fino."},
+ "items":[
+  {"name":"CUBE · Current British English","url":"http://seas3.elte.hu/cube/","tags":["free","UK"],
+   "pro":{"en":"Geoff Lindsey's dictionary: search words by sound and build minimal-pair lists.","es":"Diccionario de Geoff Lindsey: busca palabras por sonido y arma listas de pares mínimos."},
+   "con":{"en":"It uses a modern notation that differs from Oxford's by default.","es":"Usa por defecto una notación moderna distinta a la de Oxford."}},
+  {"name":"Praat","url":"https://www.fon.hum.uva.nl/praat/","tags":["free"],
+   "pro":{"en":"Record yourself and see your spectrogram and intonation next to a native speaker's.","es":"Grábate y mira tu espectrograma y tu entonación al lado de los de un nativo."},
+   "con":{"en":"It's a lab tool and takes effort to learn.","es":"Es una herramienta de laboratorio: cuesta aprender a usarla."}},
+  {"name":"English Pronunciation for Speakers of Spanish","url":"https://www.degruyterbrill.com/document/doi/10.1515/9781501510977/html","tags":["book"],
+   "pro":{"en":"The academic handbook comparing English and Spanish sound by sound.","es":"El manual académico que compara inglés y español sonido por sonido."},
+   "con":{"en":"Only useful if your language is Spanish.","es":"Sirve solo si tu idioma es el español."}}
+ ]}
+]
