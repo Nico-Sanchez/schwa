@@ -18,7 +18,7 @@ One synthetic voice reads every sound, word and sentence, so comparisons always 
 python3 -I src/build.py src site/schwa.html
 ```
 
-`site/` is what gets deployed. `src/build.py` injects the data files into `src/template.html` and writes the installable app (`index.html`, `manifest.webmanifest`, `sw.js`) next to it. `src/validate.py src` checks examples, minimal pairs, sentences and stress words against the dictionary. `node --test tests/` covers the round scheduler and the audio analysis.
+`site/` is what gets deployed. `src/build.py` injects the data files into `src/template.html` and writes the installable app (`index.html`, `manifest.webmanifest`, `sw.js`) next to it. `src/validate.py src` checks examples, minimal pairs, sentences and stress words against the dictionary. `node --test tests/*.test.mjs` covers the round scheduler and the audio analysis.
 
 ## Audio
 
