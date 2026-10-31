@@ -28,7 +28,7 @@ python3 -I src/build.py src site/schwa.html
 python3 src/voice.py <model-folder> src site
 ```
 
-It skips clips that already exist; pass `--force` to regenerate them. Run it after adding pairs, sentences or words, then rebuild.
+The voice is an even blend of `bf_emma` and `bm_fable`: Emma alone was the most intelligible but compressed the vowel contrasts, and the blend keeps most of that clarity with much wider vowels. Set `SCHWA_VOICES` to try another mix. It skips clips that already exist; pass `--force` to regenerate them. Run it after adding pairs, sentences or words, then rebuild.
 
 To add a native language, add a profile to `src/l1.json` (notes per phoneme, difficulty, priority contrasts); a profile can extend another with `base`.
 

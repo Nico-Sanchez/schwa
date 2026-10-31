@@ -4,13 +4,15 @@ from kokoro_onnx import Kokoro
 from scipy.signal import lfilter
 
 MODEL, SRC, SITE = sys.argv[1], sys.argv[2], sys.argv[3]
-VOICE = os.environ.get("SCHWA_VOICE", "bf_emma")
+VOICES = os.environ.get("SCHWA_VOICES", "bf_emma,bm_fable").split(",")
 FORCE = "--force" in sys.argv
 SR = 24000
 TARGET_DB = -20.0
-PEAK_DB = -1.5
+PEAK_DB = -3.0
 WORD_STYLE_ROW = 39
 PLOSIVES = "pbtdkɡ"
+SIBILANTS = "szʃʒ"
+VOICED_ONSETS = "ˈˌaeiouɑɒɔəɛɜɪʊʌAIOQWYlmnŋɹvðwj"
 SYMBOLS = {"e": "ɛ", "æ": "a", "eɪ": "A", "aɪ": "I", "ɔɪ": "Y", "əʊ": "Q", "aʊ": "W", "eə": "ɛː", "r": "ɹ", "g": "ɡ", "dʒ": "ʤ", "tʃ": "ʧ"}
 REDUCED = {"the": "ðə", "a": "ə", "an": "ən", "to": "tə", "of": "əv", "and": "ənd", "for": "fə", "at": "ət", "are": "ə", "was": "wəz", "were": "wə", "can": "kən", "you": "ju", "he": "hi", "she": "ʃi", "we": "wi", "his": "hɪz", "her": "hə", "him": "hɪm", "them": "ðəm", "do": "də", "has": "həz", "have": "həv", "from": "frəm", "or": "ə", "as": "əz", "than": "ðən", "but": "bət", "it": "ɪt", "i": "I", "me": "mi", "my": "mI", "is": "ɪz", "on": "ɒn", "in": "ɪn", "this": "ðɪs"}
 CONTRACTED = {"i've": "Iv", "we're": "wɪə", "i'd": "Id", "i'll": "Il", "it's": "ɪts", "he's": "hiz", "she's": "ʃiz", "that's": "ðats", "there's": "ðɛːz", "where's": "wɛːz", "what's": "wɒts", "let's": "lˈɛts", "don't": "dˈQnt", "can't": "kˈɑːnt", "won't": "wˈQnt"}
@@ -66,6 +68,47 @@ def k_weight(x):
     return lfilter([1, -2, 1], [1, 2 * (k * k - 1) / a0, (1 - k / q1 + k * k) / a0], y)
 
 
+def hop_stats(x, hop):
+    level, hiss = [], []
+    freqs = np.fft.rfftfreq(hop * 2, 1 / SR)
+    for i in range(0, len(x) - hop * 2, hop):
+        part = x[i:i + hop * 2]
+        power = np.abs(np.fft.rfft(part * np.hanning(len(part)))) ** 2
+        level.append(np.sqrt(np.mean(part ** 2)))
+        hiss.append(power[freqs > 3500].sum() / (power.sum() + 1e-12))
+    level = np.array(level)
+    return 20 * np.log10(level / level.max() + 1e-9), np.array(hiss)
+
+
+def clip_onset(x, first):
+    hop = SR // 200
+    db, hiss = hop_stats(x, hop)
+    head = min(len(db), 80)
+    if first in "sʃ":
+        on = np.nonzero((hiss[:head] > .5) & (db[:head] > -40))[0]
+        if len(on) and on[0] >= 8 and np.median(hiss[:on[0]]) < .3:
+            return x[max(0, on[0] - 1) * hop:]
+        return x
+    if first in SIBILANTS:
+        return x
+    loud = np.nonzero((db[:head] > -12) & (hiss[:head] < .3))[0]
+    voice = loud[0] if len(loud) else head
+    noisy = np.nonzero((hiss[:voice] > .6) & (db[:voice] > -30))[0]
+    if not len(noisy):
+        return x
+    last = noisy[0]
+    for n in noisy[1:]:
+        if n - last > 3:
+            break
+        last = n
+    if first in VOICED_ONSETS:
+        return x[(last + 1) * hop:]
+    quiet = np.nonzero(db[last:voice] <= -26)[0]
+    if last - noisy[0] >= 40 or len(quiet) < 3:
+        return x
+    return x[max(0, last + quiet[-1] - 1) * hop:]
+
+
 def clip_release(x):
     hop = SR // 200
     e = np.array([np.sqrt(np.mean(x[i:i + hop] ** 2)) for i in range(0, len(x) - hop, hop)])
@@ -86,7 +129,14 @@ def clip_release(x):
     return x
 
 
-def finish(x, plosive_end=False):
+def limit(x):
+    knee, top = 10 ** ((PEAK_DB - 3) / 20), 10 ** (PEAK_DB / 20)
+    over = np.abs(x) > knee
+    x[over] = np.sign(x[over]) * (knee + (top - knee) * np.tanh((np.abs(x[over]) - knee) / (top - knee)))
+    return x
+
+
+def finish(x, plosive_end=False, first=""):
     x = np.asarray(x, dtype=np.float64)
     if plosive_end:
         x = clip_release(x)
@@ -95,27 +145,28 @@ def finish(x, plosive_end=False):
     on = np.nonzero(rms > rms.max() * .012)[0]
     start, end = max(0, (on[0] - 3) * hop), min(len(x), (on[-1] + 9) * hop)
     x = x[start:end]
+    if first:
+        x = clip_onset(x, first)
     w = k_weight(x)
     frames = np.array([np.mean(w[i:i + hop * 2] ** 2) for i in range(0, max(1, len(w) - hop * 2), hop)])
     level = 10 * np.log10(np.mean(frames[frames > frames.max() * .01]) + 1e-12)
-    gain = min(10 ** ((TARGET_DB - level) / 20), 10 ** (PEAK_DB / 20) / max(np.abs(x).max(), 1e-9))
-    x = x * gain
+    x = limit(x * 10 ** ((TARGET_DB - level) / 20))
     fade = SR // 200
     x[:fade] *= np.linspace(0, 1, fade)
     x[-fade * 4:] *= np.linspace(1, 0, fade * 4)
     return x
 
 
-def save(x, path, plosive_end=False):
+def save(x, path, plosive_end=False, first=""):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-codec:a", "libmp3lame", "-b:a", "48k", path], input=finish(x, plosive_end).astype(np.float32).tobytes(), check=True)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(SR), "-ac", "1", "-i", "-", "-codec:a", "libmp3lame", "-b:a", "48k", path], input=finish(x, plosive_end, first).astype(np.float32).tobytes(), check=True)
 
 
 def main():
     tts = Kokoro(os.path.join(MODEL, "kokoro-v1.0.onnx"), os.path.join(MODEL, "voices-v1.0.bin"))
-    style = tts.get_voice_style(VOICE)
+    style = np.mean([tts.get_voice_style(v) for v in VOICES], axis=0)
     steady = np.repeat(style[WORD_STYLE_ROW:WORD_STYLE_ROW + 1], len(style), axis=0)
-    speak = lambda ph, speed: tts.create(ph, voice=steady if ph[-1] not in ".?!" else VOICE, speed=speed, is_phonemes=True)[0]
+    speak = lambda ph, speed: tts.create(ph, voice=steady if ph[-1] not in ".?!" else style, speed=speed, is_phonemes=True)[0]
     audio = os.path.join(SITE, "audio")
     plan = []
     for p in load("phonemes.json"):
@@ -144,7 +195,8 @@ def main():
     for i, (path, ph, speed) in enumerate(plan):
         if not FORCE and os.path.exists(path):
             continue
-        save(speak(ph, speed), path, ph[-1] in PLOSIVES)
+        single = ph[-1] not in ".?!"
+        save(speak(ph, speed), path, single and ph[-1] in PLOSIVES, ph[0] if single else "")
         if i % 100 == 0:
             print(i, len(plan), path, ph, flush=True)
     json.dump(words, open(os.path.join(audio, "words.json"), "w", encoding="utf-8"), ensure_ascii=False)
