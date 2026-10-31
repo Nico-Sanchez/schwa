@@ -18,12 +18,16 @@ missing = [w for w in GAME if w not in words]
 
 page = open(os.path.join(SRC, "template.html"), encoding="utf-8").read()
 page = page.replace("__PHONEMES__", json.dumps(json.load(open(os.path.join(SRC, "phonemes.json"))), ensure_ascii=False))
-for key in ("pairs", "l1", "strings", "resources"):
+for key in ("pairs", "l1", "strings", "resources", "sentences", "weak", "stress"):
     data = json.load(open(os.path.join(SRC, key + ".json"), encoding="utf-8"))
     page = page.replace("__" + key.upper() + "__", json.dumps(data, ensure_ascii=False))
-leftover = [m for m in ("__PHONEMES__", "__PAIRS__", "__L1__", "__STRINGS__", "__RESOURCES__") if m in page]
+leftover = [m for m in ("__PHONEMES__", "__PAIRS__", "__L1__", "__STRINGS__", "__RESOURCES__", "__SENTENCES__", "__WEAK__", "__STRESS__") if m in page]
 assert not leftover, leftover
+for key in ("logic", "analysis"):
+    page = page.replace("__" + key.upper() + "__", open(os.path.join(SRC, key + ".js"), encoding="utf-8").read().split('if (typeof module')[0])
 page = page.replace("__GAMEWORDS__", json.dumps(game))
+word_audio = json.load(open(os.path.join(SITE, "audio", "words.json"), encoding="utf-8")) if os.path.exists(os.path.join(SITE, "audio", "words.json")) else []
+page = page.replace("__WORDAUDIO__", json.dumps(word_audio, ensure_ascii=False))
 page = page.replace("__DICT__", json.dumps(dict_raw, ensure_ascii=False))
 open(OUT, "w", encoding="utf-8").write(page)
 
@@ -41,7 +45,7 @@ HEAD = """<!doctype html><html lang="es"><head><meta charset="utf-8">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 </head><body>"""
-TAIL = """<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));</script>
+TAIL = """<script>if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").then(() => navigator.serviceWorker.ready).then(r => r.active?.postMessage("fill-audio")).catch(() => {}));</script>
 </body></html>"""
 open(os.path.join(SITE, "index.html"), "w", encoding="utf-8").write(HEAD + page + TAIL)
 
@@ -67,11 +71,15 @@ open(os.path.join(SITE, "manifest.webmanifest"), "w", encoding="utf-8").write(js
 assets = ["./", "index.html", "manifest.webmanifest"]
 assets += ["icons/" + f for f in sorted(os.listdir(os.path.join(SITE, "icons"))) if f.endswith(".png")]
 assets += ["audio/" + f for f in sorted(os.listdir(os.path.join(SITE, "audio"))) if f.endswith(".mp3")]
+later = ["audio/" + d + "/" + f for d in ("w", "s") if os.path.isdir(os.path.join(SITE, "audio", d)) for f in sorted(os.listdir(os.path.join(SITE, "audio", d))) if f.endswith(".mp3")]
 digest = hashlib.sha256()
+audio_digest = hashlib.sha256()
 for a in assets[1:]:
     digest.update(open(os.path.join(SITE, a), "rb").read())
+for a in later:
+    audio_digest.update(open(os.path.join(SITE, a), "rb").read())
 sw = open(os.path.join(SRC, "sw.js"), encoding="utf-8").read()
-sw = sw.replace("__VERSION__", digest.hexdigest()[:12]).replace("__ASSETS__", json.dumps(assets))
+sw = sw.replace("__VERSION__", digest.hexdigest()[:12]).replace("__AUDIO_VERSION__", audio_digest.hexdigest()[:12]).replace("__ASSETS__", json.dumps(assets)).replace("__LATER__", json.dumps(later))
 open(os.path.join(SITE, "sw.js"), "w", encoding="utf-8").write(sw)
 
-print("game words:", len(game), "missing:", missing, "page:", os.path.getsize(OUT), "precache:", len(assets))
+print("game words:", len(game), "missing:", missing, "page:", os.path.getsize(OUT), "precache:", len(assets), "later:", len(later))

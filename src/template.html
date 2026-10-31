@@ -202,6 +202,23 @@ main{padding-block:26px 64px}
 .spec span{position:absolute;top:6px;font-size:10.5px;font-weight:650;letter-spacing:.06em;color:var(--muted);background:var(--surface);padding:1px 6px;border-radius:4px}
 .spec .who{left:8px;text-transform:uppercase}
 .spec .khz{right:8px}
+.level{position:relative;height:22px;margin-top:10px;border-radius:6px;background:var(--sunken);overflow:hidden}
+.level i{position:absolute;inset:0 auto 0 0;width:0;background:var(--good)}
+.level[data-st="low"] i{background:var(--dip)}
+.level[data-st="hot"] i{background:var(--bad)}
+.level span{position:absolute;inset:0;display:grid;place-items:center;font-size:12px;font-weight:600}
+.verdict{margin-top:12px;border-radius:12px;padding:10px 14px;border:1px solid var(--line);background:var(--bg)}
+.verdict b{display:block;font:700 15px var(--f-display)}
+.verdict p{margin:2px 0 0;font-size:14px}
+.verdict small{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
+.verdict[data-level="good"]{border-color:var(--good);background:var(--good-soft)}
+.verdict[data-level="close"]{border-color:var(--dip);background:var(--dip-soft)}
+.verdict[data-level="try"]{border-color:var(--bad);background:var(--bad-soft)}
+.cal-big{font-size:42px!important;line-height:1.1}
+.rec-more{margin-top:12px;font-size:13px}
+.rec-more summary{cursor:pointer;color:var(--muted);font-weight:600}
+.vmap .me circle{fill:var(--ink)}
+.vmap .me text{font-size:11px;font-weight:700;fill:var(--ink)}
 
 /* Transcribir */
 .tx{max-width:900px}
@@ -266,6 +283,18 @@ main{padding-block:26px 64px}
 .feedback .ko{color:var(--bad);font-weight:700}
 .feedback .row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .gfoot{display:flex;justify-content:flex-end;margin-top:16px}
+#mode{border-radius:18px}
+.answers.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.sylls{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ans.syl{flex:1 1 72px;max-width:140px}
+.sentence{font:600 20px/1.35 var(--f-display);margin-bottom:6px}
+.blank{display:inline-block;width:64px;border-bottom:2px solid var(--ink);margin:0 4px}
+.slots{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px}
+.slot{min-width:38px;height:42px;display:grid;place-items:center;border-bottom:2px solid var(--line);font:400 22px/1 var(--f-ipa)}
+.slot.on{border-color:var(--ink)}
+.bank{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.bank .ph{min-width:44px;height:44px;font-size:20px}
+.bank .ph[disabled]{opacity:.45}
 .word-big{font:750 34px/1.1 var(--f-display);letter-spacing:-.01em}
 .stats{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
 .stats h3{font:700 15px var(--f-display);margin:0 0 4px}
@@ -321,8 +350,6 @@ main{padding-block:26px 64px}
       <button class="tab" role="tab" id="t-ruta" data-tab="ruta" aria-controls="p-ruta" data-i18n="tab_path"></button>
     </nav>
     <div class="voice">
-      <label for="voice-sel" data-i18n="voice"></label>
-      <select id="voice-sel" data-i18n-aria="voice_aria"></select>
       <button class="toggle" id="slow" aria-pressed="false" data-i18n="slow" data-i18n-title="slow_title"></button>
       <div class="seg sm" id="langseg" role="group" data-i18n-aria="ui_lang">
         <button data-lang="en" aria-pressed="false" lang="en">EN</button>
@@ -333,8 +360,6 @@ main{padding-block:26px 64px}
 </div>
 
 <main class="wrap">
-  <div class="notice" id="no-voice" hidden data-i18n="no_voice"></div>
-
   <section class="panel" id="p-tabla" role="tabpanel" aria-labelledby="t-tabla">
     <div class="tabla">
       <div>
@@ -384,8 +409,10 @@ main{padding-block:26px 64px}
       <textarea id="tx-input" rows="2" spellcheck="false">I usually walk to work, but the weather is very bad this year.</textarea>
       <div class="tx-row">
         <button class="btn primary" id="tx-say"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg><span data-i18n="tx_say"></span></button>
+        <div class="voice"><label for="voice-sel" data-i18n="voice"></label><select id="voice-sel" data-i18n-aria="voice_aria"></select></div>
         <span class="muted" id="tx-count"></span>
       </div>
+      <div class="notice" id="no-voice" hidden data-i18n="no_voice"></div>
       <div class="tx-line" id="tx-line"></div>
       <div class="words" id="tx-out"></div>
       <div class="infobar" id="tx-info" hidden></div>
@@ -397,22 +424,23 @@ main{padding-block:26px 64px}
     <h1 class="h1" data-i18n="pr_h1"></h1>
     <div class="tools">
       <div class="seg" id="mode" role="group" data-i18n-aria="mode_label">
-        <button data-m="pairs" aria-pressed="true" data-i18n="mode_pairs"></button>
+        <button data-m="today" aria-pressed="true" data-i18n="mode_today"></button>
+        <button data-m="pair" aria-pressed="false" data-i18n="mode_pairs"></button>
+        <button data-m="same" aria-pressed="false" data-i18n="mode_same"></button>
+        <button data-m="sent" aria-pressed="false" data-i18n="mode_sent"></button>
+        <button data-m="dict" aria-pressed="false" data-i18n="mode_dict"></button>
+        <button data-m="stress" aria-pressed="false" data-i18n="mode_stress"></button>
+        <button data-m="schwa" aria-pressed="false" data-i18n="mode_schwa"></button>
+        <button data-m="weak" aria-pressed="false" data-i18n="mode_weak"></button>
         <button data-m="read" aria-pressed="false" data-i18n="mode_read"></button>
       </div>
       <label class="pick"><span data-i18n="my_lang"></span><select class="l1sel" id="l1-practice"></select></label>
     </div>
     <div class="prac">
       <div>
-        <div id="m-pairs">
-          <p class="lede" data-i18n="pairs_lede"></p>
-          <div class="sets" id="sets"></div>
-          <div class="game" id="pg"></div>
-        </div>
-        <div id="m-read" hidden>
-          <p class="lede" data-i18n="read_lede"></p>
-          <div class="game" id="rg"></div>
-        </div>
+        <p class="lede" id="game-lede"></p>
+        <div class="sets" id="sets"></div>
+        <div class="game" id="game"></div>
       </div>
       <aside class="stats" id="stats"></aside>
     </div>
@@ -433,13 +461,19 @@ const STRINGS = __STRINGS__;
 const RESOURCES = __RESOURCES__;
 const GAME_WORDS = __GAMEWORDS__;
 const DICT_RAW = __DICT__;
+const SENTENCES = __SENTENCES__;
+const WEAK = __WEAK__;
+const STRESS = __STRESS__;
+const WORD_AUDIO = new Set(__WORDAUDIO__);
+</script>
+<script>
+__LOGIC__
+__ANALYSIS__
 </script>
 <script>
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const pick = a => a[Math.floor(Math.random() * a.length)];
-const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const wait = ms => new Promise(r => setTimeout(r, ms));
 const PLAY = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>';
 
@@ -596,16 +630,27 @@ function speak(text, rate) {
 }
 const audios = {};
 let current = null;
-function playFile(slug) {
+function playUrl(url, slow) {
   return new Promise(res => {
-    const a = audios[slug] || (audios[slug] = new Audio(`audio/${slug}.mp3`));
+    const a = audios[url] || (audios[url] = new Audio(url));
     if (current && current !== a) current.pause();
     current = a;
     try { a.currentTime = 0; } catch {}
+    a.playbackRate = slow ? .72 : 1;
     a.onended = () => res(true);
     a.onerror = () => res(false);
     a.play().catch(() => res(false));
   });
+}
+const playFile = slug => playUrl(`audio/${slug}.mp3`);
+const wordUrl = w => `audio/w/${w.toLowerCase().replace(/[^a-z]/g, "_")}.mp3`;
+async function sayWord(w, slow = tts.slow) {
+  if (WORD_AUDIO.has(w.toLowerCase()) && await playUrl(wordUrl(w), slow)) return;
+  await speak(w, slow ? .55 : undefined);
+}
+async function playClip(url, text, slow = tts.slow) {
+  if (await playUrl(url, slow)) return;
+  await speak(text, slow ? .55 : undefined);
 }
 function stopAll() { if (tts.ok) speechSynthesis.cancel(); if (current) current.pause(); }
 async function playSound(p) {
@@ -620,7 +665,7 @@ async function playPhoneme(p, withWord = true) {
   await playSound(p);
   if (!withWord || my !== seq) return;
   await wait(220);
-  if (my === seq) await speak(p.kw);
+  if (my === seq) await sayWord(p.kw);
 }
 function flash(id) {
   $$(`.tile[data-id="${CSS.escape(id)}"]`).forEach(el => { el.classList.remove("playing"); void el.offsetWidth; el.classList.add("playing"); });
@@ -673,12 +718,12 @@ $$(".l1sel").forEach(s => s.addEventListener("change", e => setL1(e.target.value
 function setL1(v) {
   state.l1 = v; store.set("l1", v);
   renderL1Selects(); renderTiles(); applyFilter(); renderFicha(); renderSets();
-  if (pg.set === "mix") newPairsGame();
+  if (game.set === "mix" || game.mode === "today") newGame();
 }
 function setLang(l) {
   state.lang = l; store.set("lang", l);
   applyI18n(); renderVoiceUI(); renderL1Selects(); renderTiles(); applyFilter(); renderFicha();
-  renderTx(); renderSets(); renderPairs(); renderRead(); renderStats(); renderRuta();
+  renderTx(); renderSets(); renderGame(); renderStats(); renderRuta();
 }
 $$("#langseg button").forEach(b => b.addEventListener("click", () => setLang(b.dataset.lang)));
 
@@ -687,7 +732,7 @@ const VPOS = { "iː":[.08,.06], "ɪ":[.2,.2], "e":[.1,.45], "æ":[.12,.86], "ʌ"
 const ESV = { i:[0,0], e:[0,.4], a:[.45,1], o:[1,.4], u:[1,0] };
 const DIPH = { "ɪə":["ɪ","ə"], "eɪ":["e","ɪ"], "ʊə":["ʊ","ə"], "ɔɪ":["ɔː","ɪ"], "əʊ":["ə","ʊ"], "eə":["e","ə"], "aɪ":["a","ɪ"], "aʊ":["a","ʊ"] };
 const XY = ([f, h]) => { const x0 = 40 + 120 * h; return [x0 + f * (312 - x0), 30 + 160 * h]; };
-function vowelMap(sel) {
+function vowelMap(sel, me) {
   const pt = id => id === "a" ? XY([.3, .98]) : XY(VPOS[id]);
   const tz = [XY([0,0]), XY([1,0]), XY([1,1]), XY([0,1])].map(p => p.join(",")).join(" ");
   const mid = [XY([0,.5]), XY([1,.5])];
@@ -706,7 +751,7 @@ function vowelMap(sel) {
     <text class="ax" x="40" y="16">${esc(t("axis_front"))}</text><text class="ax" x="312" y="16" text-anchor="end">${esc(t("axis_back"))}</text>
     <text class="ax" transform="translate(16,110) rotate(90)" text-anchor="middle">${esc(t("vmap_axis"))}</text>
     <polygon class="tz" points="${tz}"/><line class="grid-l" x1="${mid[0][0]}" y1="${mid[0][1]}" x2="${mid[1][0]}" y2="${mid[1][1]}"/>
-    ${es}${arrow}${en}</svg>
+    ${es}${arrow}${en}${me ? (([x, y]) => `<g class="me"><circle cx="${x}" cy="${y}" r="7"/><text x="${x}" y="${y - 11}" text-anchor="middle">${esc(t("vmap_me"))}</text></g>`)(XY(me)) : ""}</svg>
     <div class="vlegend"><span><span style="color:var(--vow)">●</span> ${esc(t("vmap_en"))}</span>${showL1 ? `<span>▢ ${esc(t("vmap_l1", { lang: profLang() }))}</span>` : ""}</div>`;
 }
 
@@ -767,13 +812,15 @@ function renderFicha() {
 }
 document.addEventListener("click", e => {
   const say = e.target.closest("[data-say]");
-  if (say) { stopAll(); speak(say.dataset.say); return; }
+  if (say) { stopAll(); sayWord(say.dataset.say); return; }
   const snd = e.target.closest("[data-snd]");
   if (snd) { const p = P[snd.dataset.snd]; ++seq; stopAll(); flash(p.id); playSound(p); return; }
   const v = e.target.closest(".vmap .en");
   if (v) { const p = P[v.dataset.id]; select(p.id); playPhoneme(p); return; }
   const pr = e.target.closest("[data-practice]");
-  if (pr) { pg.set = pr.dataset.practice; store.set("set", pg.set); setMode("pairs"); go("practicar"); newPairsGame(); return; }
+  if (pr) { game.set = pr.dataset.practice; store.set("set", game.set); setMode("pair"); go("practicar"); return; }
+  const clip = e.target.closest("[data-clip]");
+  if (clip) { stopAll(); playClip(clip.dataset.clip, clip.dataset.text); return; }
   const fc = e.target.closest("[data-ficha]");
   if (fc) { select(fc.dataset.ficha); go("tabla"); hideMini(); $("#ficha").scrollIntoView({ behavior: "smooth", block: "start" }); }
 });
@@ -790,8 +837,8 @@ function showMini(p) {
 function hideMini() { mini.classList.remove("show"); }
 
 /* record yourself */
-const rec = { mode: "sound", id: null, mr: null, stream: null, timer: null, audio: null, url: null };
-const PLOSIVE = new Set(["p","b","t","d","k","g","tʃ","dʒ"]), FRICATIVE = new Set(["f","v","θ","ð","s","z","ʃ","ʒ","h"]);
+const rec = { mode: "sound", id: null, mr: null, stream: null, timer: null, audio: null, url: null, raf: 0, stopMeter: null };
+const PLOSIVE = new Set(["p","b","t","d","k","g","tʃ","dʒ"]), FRICATIVE = new Set(["f","v","θ","ð","s","z","ʃ","ʒ","h"]), HELD = new Set(["f","v","θ","ð","s","z","ʃ","ʒ"]);
 const recMode = p => p.audio ? rec.mode : "word";
 function recHint(p, mode) {
   if (mode === "word") return t("hint_word");
@@ -800,23 +847,25 @@ function recHint(p, mode) {
   if (PLOSIVE.has(p.id)) return t("hint_plos") + t(p.voiced ? "hint_plos_voiced" : "hint_plos_vl");
   return t("hint_other");
 }
+const recInst = (p, mode) => mode === "word" ? t("rec_inst_word", { w: p.kw }) : HELD.has(p.id) ? t("rec_inst_fric") : t(p.kind === "cons" ? "rec_inst_cons" : "rec_inst_vow");
 function recHTML(p) {
   const mode = recMode(p);
   return `<div class="f-sec rec"><h4>${esc(t("rec_title"))}</h4>
     ${p.audio ? `<div class="seg" role="group" aria-label="${esc(t("rec_what"))}"><button data-recmode="sound" aria-pressed="${mode === "sound"}">${esc(t("rec_sound"))}</button><button data-recmode="word" aria-pressed="${mode === "word"}">${esc(t("rec_word", { w: p.kw }))}</button></div>` : ""}
-    <p class="rec-msg">${esc(mode === "word" ? t("rec_inst_word", { w: p.kw }) : t(p.kind === "cons" ? "rec_inst_cons" : "rec_inst_vow"))}</p>
+    <p class="rec-msg">${esc(recInst(p, mode))}</p>
     <div class="rec-row">
       <button class="btn" id="rec-model">${PLAY}${esc(t("rec_model"))}</button>
       <button class="btn" id="rec-go"><span class="recdot"></span><span>${esc(t("rec_go"))}</span></button>
       <label class="btn" id="rec-up" for="rec-file">${esc(t("rec_upload"))}</label><input class="vh" type="file" id="rec-file" accept="audio/*">
     </div>
+    <div class="level" id="rec-level" hidden><i></i><span id="rec-level-txt"></span></div>
+    <p class="rec-msg" id="rec-status" role="status"></p>
     <div class="rec-row" id="rec-cmp" hidden>
       <button class="btn primary" id="rec-me">${PLAY}${esc(t("rec_me"))}</button>
       <button class="btn" id="rec-ab">${PLAY}${esc(t("rec_ab"))}</button>
     </div>
-    <div class="specs" id="rec-specs" hidden></div>
-    <p class="rec-msg" id="rec-status" role="status"></p>
-    <p class="rec-msg" id="rec-hint" hidden>${esc(recHint(p, mode))}</p>
+    <div id="rec-card"></div>
+    <details class="rec-more" id="rec-more" hidden><summary>${esc(t("rec_more"))}</summary><div class="specs" id="rec-specs"></div><p class="rec-msg">${esc(recHint(p, mode))}</p></details>
   </div>`;
 }
 function bindRec(p) {
@@ -828,16 +877,40 @@ function bindRec(p) {
   $("#rec-me").onclick = () => { stopAll(); rec.audio?.play(); };
   $("#rec-ab").onclick = async () => { await playModel(p); await wait(350); if (rec.id === p.id) rec.audio?.play(); };
 }
-function playModel(p) { ++seq; stopAll(); if (rec.audio) rec.audio.pause(); return recMode(p) === "sound" ? playFile(p.audio) : speak(p.kw); }
+function playModel(p) { ++seq; stopAll(); if (rec.audio) rec.audio.pause(); return recMode(p) === "sound" ? playFile(p.audio) : sayWord(p.kw); }
 const recStatus = s => { const el = $("#rec-status"); if (el) el.textContent = s; };
 function recFallback(why) {
   recStatus(t("rec_fallback", { why }));
   $("#rec-up")?.classList.add("nudge");
 }
+let actx = null;
+const audioCtx = () => actx || (actx = new (window.AudioContext || window.webkitAudioContext)());
+function startMeter(stream) {
+  const box = $("#rec-level"); if (!box) return;
+  try {
+    const ctx = audioCtx(); ctx.resume();
+    const src = ctx.createMediaStreamSource(stream), an = ctx.createAnalyser(), buf = new Float32Array(1024), bar = $("i", box), txt = $("#rec-level-txt");
+    an.fftSize = 1024; src.connect(an); box.hidden = false;
+    let top = 0;
+    const tick = () => {
+      an.getFloatTimeDomainData(buf);
+      const peak = peakOf(buf); top = Math.max(peak, top * .96);
+      bar.style.width = `${Math.max(0, Math.min(100, (20 * Math.log10(top + 1e-5) + 50) * 2))}%`;
+      box.dataset.st = top > .95 ? "hot" : top < .04 ? "low" : "ok";
+      txt.textContent = t(top > .95 ? "lvl_hot" : top < .04 ? "lvl_low" : "lvl_ok");
+      rec.raf = requestAnimationFrame(tick);
+    };
+    tick();
+    rec.stopMeter = () => { cancelAnimationFrame(rec.raf); src.disconnect(); box.hidden = true; rec.stopMeter = null; };
+  } catch {}
+}
+async function openMic() {
+  return navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: true } });
+}
 async function startRec(p) {
   if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) return recFallback(t("rec_no_api"));
   let stream;
-  try { stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false, noiseSuppression: false } }); }
+  try { stream = await openMic(); }
   catch (e) { return recFallback(t(e?.name === "NotAllowedError" || e?.name === "SecurityError" ? "rec_no_perm" : "rec_no_mic")); }
   if (rec.id !== p.id) { stream.getTracks().forEach(tr => tr.stop()); return; }
   ++seq; stopAll();
@@ -845,12 +918,14 @@ async function startRec(p) {
   Object.assign(rec, { mr, stream, discard: false });
   mr.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
   mr.onstop = () => {
+    rec.stopMeter?.();
     stream.getTracks().forEach(tr => tr.stop());
     clearInterval(rec.timer); rec.mr = null; rec.stream = null;
     const btn = $("#rec-go"); if (btn) { btn.classList.remove("recording"); btn.lastChild.textContent = t("rec_again"); }
     if (!rec.discard && rec.id === p.id) useRecording(new Blob(chunks, { type: mr.mimeType || "audio/webm" }), p);
   };
   mr.start();
+  startMeter(stream);
   const btn = $("#rec-go"), t0 = Date.now();
   btn.classList.add("recording");
   const tick = () => { const left = 6 - Math.floor((Date.now() - t0) / 1000); btn.lastChild.textContent = t("rec_stop", { n: left }); if (left <= 0) stopRec(); };
@@ -864,17 +939,14 @@ function stopRec(discard = false) {
   if (rec.mr.state !== "inactive") rec.mr.stop();
 }
 
-let actx = null;
-async function toMono16k(blob) {
-  actx = actx || new (window.AudioContext || window.webkitAudioContext)();
-  const buf = await actx.decodeAudioData(await blob.arrayBuffer());
-  const sr = 16000, off = new OfflineAudioContext(1, Math.max(1, Math.ceil(buf.duration * sr)), sr);
+async function toMono(blob, sr = 16000) {
+  const buf = await audioCtx().decodeAudioData(await blob.arrayBuffer());
+  const off = new OfflineAudioContext(1, Math.max(1, Math.ceil(buf.duration * sr)), sr);
   const src = off.createBufferSource(); src.buffer = buf; src.connect(off.destination); src.start();
   return (await off.startRendering()).getChannelData(0);
 }
 function trimSilence(x) {
-  const F = 256, rms = [];
-  for (let i = 0; i + F <= x.length; i += F) { let s = 0; for (let j = i; j < i + F; j++) s += x[j] * x[j]; rms.push(Math.sqrt(s / F)); }
+  const F = 256, rms = rmsFrames(x, F);
   const peak = Math.max(...rms, 1e-9), th = peak * 0.06;
   let a = rms.findIndex(v => v > th), b = rms.length - 1 - [...rms].reverse().findIndex(v => v > th);
   if (a < 0) return x;
@@ -884,21 +956,6 @@ function trimSilence(x) {
   const out = new Float32Array(Math.min(keep.length * F, 16000 * 3));
   keep.forEach((f, n) => { if ((n + 1) * F <= out.length) out.set(x.subarray(f * F, f * F + F), n * F); });
   return out;
-}
-function fft(re, im) {
-  const n = re.length;
-  for (let i = 1, j = 0; i < n; i++) { let bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit; if (i < j) { [re[i], re[j]] = [re[j], re[i]]; [im[i], im[j]] = [im[j], im[i]]; } }
-  for (let len = 2; len <= n; len <<= 1) {
-    const ang = -2 * Math.PI / len, wr = Math.cos(ang), wi = Math.sin(ang), h = len >> 1;
-    for (let i = 0; i < n; i += len) {
-      let cr = 1, ci = 0;
-      for (let k = 0; k < h; k++) {
-        const a = i + k, b = a + h, tr = re[b] * cr - im[b] * ci, ti = re[b] * ci + im[b] * cr;
-        re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
-        const nc = cr * wr - ci * wi; ci = cr * wi + ci * wr; cr = nc;
-      }
-    }
-  }
 }
 function spectrogram(x) {
   const N = 512, hop = 96, bins = N / 2, win = Float32Array.from({ length: N }, (_, i) => 0.5 - 0.5 * Math.cos(2 * Math.PI * i / (N - 1)));
@@ -915,22 +972,22 @@ function spectrogram(x) {
   return { cols, max, dur: x.length / 16000 };
 }
 const modelSpecs = {};
-async function modelSpec(slug) {
-  if (!modelSpecs[slug]) modelSpecs[slug] = fetch(`audio/${slug}.mp3`).then(r => r.blob()).then(toMono16k).then(x => spectrogram(trimSilence(x)));
-  return modelSpecs[slug];
+async function modelSpec(url) {
+  if (!modelSpecs[url]) modelSpecs[url] = fetch(url).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => toMono(b)).then(x => spectrogram(trimSilence(x))).catch(() => null);
+  return modelSpecs[url];
 }
 function cssColor(v, host) {
   const el = document.createElement("i"); el.style.color = `var(${v})`; host.appendChild(el);
   const m = getComputedStyle(el).color.match(/[\d.]+/g).map(Number); el.remove(); return m.slice(0, 3);
 }
-function drawSpec(canvas, sp) {
+function drawSpec(canvas, sp, span = 1) {
   const dpr = Math.min(2, window.devicePixelRatio || 1), W = Math.max(1, Math.round(canvas.clientWidth * dpr)), H = Math.round(96 * dpr);
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext("2d"), img = ctx.createImageData(W, H);
   const host = canvas.parentElement, lo = cssColor("--bg", host), mid = cssColor("--tc", host), hi = cssColor("--ink", host);
-  const n = sp.cols.length, bins = sp.cols[0]?.length || 1;
+  const n = sp.cols.length, bins = sp.cols[0]?.length || 1, used = W * span;
   for (let x = 0; x < W; x++) {
-    const col = sp.cols[Math.min(n - 1, Math.floor(x / W * n))];
+    const col = x < used ? sp.cols[Math.min(n - 1, Math.floor(x / used * n))] : null;
     for (let y = 0; y < H; y++) {
       const k = Math.min(bins - 1, Math.floor((1 - y / H) * bins));
       const v = col ? Math.max(0, Math.min(1, (col[k] - sp.max + 60) / 60)) : 0;
@@ -941,30 +998,66 @@ function drawSpec(canvas, sp) {
   }
   ctx.putImageData(img, 0, 0);
 }
+const verdictHTML = v => `<div class="verdict" data-level="${v.level}"><b>${esc(t("vd_" + v.level))}</b><p>${esc(t(v.key, v.vars))}${v.vars?.near ? " " + esc(t("vd_rival", { r: v.vars.near })) : ""}</p>${v.level === "info" ? "" : `<small>${esc(t("vd_note"))}</small>`}</div>`;
+function judge(p, mode, x16, x11) {
+  if (mode !== "sound") return null;
+  if (HELD.has(p.id)) return fricativeVerdict(p.id, measureFricative(x16));
+  if (!VPOS[p.id]) return null;
+  const m = measureVowel(x11, 11025), cal = store.get("calib", null);
+  if (!m) return { level: "try", key: "vd_unclear" };
+  const len = lengthVerdict(p.kind, m.ms);
+  if (!cal) return len ? { ...len, needsCal: true } : { level: "info", key: "vd_cal_ask", needsCal: true };
+  const pt = vowelPoint(m, cal), v = vowelVerdict(p.id, pt, VPOS, CONFUSE[p.id] || []);
+  return { ...(v.level === "good" && len ? len : v), vars: { ...v.vars }, point: pt };
+}
 async function useRecording(blob, p) {
-  if (rec.url) URL.revokeObjectURL(rec.url);
-  rec.url = URL.createObjectURL(blob);
-  rec.audio = new Audio(rec.url);
   $("#rec-up")?.classList.remove("nudge");
   recStatus(t("rec_processing"));
   const mode = recMode(p);
   try {
-    const [model, me] = await Promise.all([mode === "sound" ? modelSpec(p.audio) : null, toMono16k(blob).then(x => spectrogram(trimSilence(x)))]);
+    const raw = await toMono(blob, 24000), { samples, peak } = normalizeRecording(raw);
+    const [x16, x11] = await Promise.all([toMono(blob, 16000), toMono(blob, 11025)]);
+    if (rec.url) URL.revokeObjectURL(rec.url);
+    rec.url = URL.createObjectURL(new Blob([wavBytes(samples, 24000)], { type: "audio/wav" }));
+    rec.audio = new Audio(rec.url);
+    const url = mode === "sound" ? `audio/${p.audio}.mp3` : wordUrl(p.kw);
+    const [model, me] = await Promise.all([modelSpec(url), Promise.resolve(spectrogram(trimSilence(x16)))]);
     if (rec.id !== p.id) return;
     if (!me.cols.length) { recStatus(t("rec_empty")); return; }
-    const specs = $("#rec-specs");
+    const specs = $("#rec-specs"), longest = Math.max(model?.dur || 0, me.dur);
     const card = (who, sp) => `<div class="spec"><canvas></canvas><span class="who">${esc(who)}</span><span class="khz">${sp.dur.toFixed(1)} s · 0–8 kHz</span></div>`;
     specs.innerHTML = (model ? card(t("spec_model"), model) : "") + card(t("spec_me"), me);
-    specs.hidden = false;
-    const cv = $$("canvas", specs);
-    if (model) drawSpec(cv[0], model);
-    drawSpec(cv.at(-1), me);
+    $("#rec-more").hidden = false;
+    $("#rec-more").ontoggle = () => { const cv = $$("canvas", specs); if (model) drawSpec(cv[0], model, model.dur / longest); drawSpec(cv.at(-1), me, me.dur / longest); };
     $("#rec-cmp").hidden = false;
-    $("#rec-hint").hidden = false;
-    recStatus("");
+    recStatus(peak < .03 ? t("rec_quiet") : peak > .98 ? t("rec_clip") : "");
+    const v = judge(p, mode, x16, x11), box = $("#rec-card");
+    box.innerHTML = (v ? verdictHTML(v) : `<p class="rec-msg">${esc(t(mode === "word" ? "vd_word" : "vd_ear"))}</p>`) + (v?.point ? `<div class="f-sec">${vowelMap(p.id, v.point)}</div>` : "") + (v?.needsCal ? `<p class="rec-row"><button class="btn" id="cal-go">${esc(t("cal_go"))}</button></p>` : "");
+    const go = $("#cal-go"); if (go) go.onclick = () => calibrate(box);
   } catch {
     recStatus(t("rec_bad"));
   }
+}
+async function calibrate(box) {
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) return recFallback(t("rec_no_api"));
+  let stream;
+  try { stream = await openMic(); }
+  catch (e) { return recFallback(t(e?.name === "NotAllowedError" || e?.name === "SecurityError" ? "rec_no_perm" : "rec_no_mic")); }
+  const got = {};
+  try {
+    for (const [k, w] of [["i", "i"], ["a", "a"], ["u", "u"]]) {
+      box.innerHTML = `<div class="verdict" data-level="info"><b class="cal-big">${w}</b><p>${esc(t("cal_say", { w }))}</p></div>`;
+      await wait(500);
+      const chunks = [], mr = new MediaRecorder(stream);
+      mr.ondataavailable = e => { if (e.data.size) chunks.push(e.data); };
+      const done = new Promise(r => mr.onstop = r);
+      mr.start(); await wait(1800); mr.stop(); await done;
+      got[k] = measureVowel(await toMono(new Blob(chunks, { type: mr.mimeType || "audio/webm" }), 11025), 11025);
+    }
+  } catch {} finally { stream.getTracks().forEach(tr => tr.stop()); }
+  const ok = validCalibration(got);
+  if (ok) store.set("calib", got);
+  box.innerHTML = verdictHTML({ level: ok ? "good" : "try", key: ok ? "cal_ok" : "cal_bad" });
 }
 
 /* transcribe */
@@ -1010,141 +1103,192 @@ $("#tx-out").addEventListener("click", e => {
   info.innerHTML = `<span class="sym">/${esc(p.id)}/</span><div class="body"><b>${p.emoji} ${esc(p.kw)}</b> · ${esc(kindLabel(p))}<br>${esc(n ? n.cmp : tx(p.how))}</div><button class="btn" data-ficha="${esc(p.id)}">${esc(t("see_sheet"))}</button>`;
 });
 
-/* practice: minimal pairs */
-const stats = store.get("stats", {});
-const pg = { set: store.get("set", "mix"), items: [], i: 0, score: 0, res: [], played: false, answered: false };
+/* practice */
+const stats = store.get("stats", {}), cards = store.get("cards", {}), decks = store.get("decks", {});
+const MODE_IDS = ["today", "pair", "same", "sent", "dict", "stress", "schwa", "weak", "read"];
+const CONTRAST_MODES = new Set(["pair", "same", "sent"]);
+const savedMode = store.get("mode", "today");
+const game = { mode: MODE_IDS.includes(savedMode) ? savedMode : savedMode === "pairs" ? "pair" : "today", set: store.get("set", "mix"), items: [], i: 0, score: 0, res: [], played: false, answered: false, pick: null, typed: [] };
+const today = () => dayOf(Date.now());
+const coin = () => Math.random() < .5 ? 0 : 1;
 const pairLabel = s => `/${esc(s.a)}/ – ${s.b ? "/" + esc(s.b) + "/" : esc(t("no_h"))}`;
+const setById = id => PAIRS.find(s => s.id === id);
+const mixPool = () => { const pr = prof()?.prio; return pr ? PAIRS.filter(s => pr.includes(s.id)) : PAIRS; };
+const contrastPool = () => game.set === "mix" ? mixPool() : PAIRS.filter(s => s.id === game.set);
+const weakness = id => { const st = stats[id]; return st?.n ? .4 + 2 * (1 - st.ok / st.n) : 1.2; };
+const bySet = k => k.split(":")[1];
+function draw(scope, map, n, groupOf = () => "", weight = () => 1) {
+  const out = buildRound({ keys: [...map.keys()], cards, deck: decks[scope] || [], day: today(), n, groupOf, weight });
+  decks[scope] = out.deck; store.set("decks", decks);
+  return out.items.map(k => ({ key: k, ...map.get(k) }));
+}
+const pairMap = pool => new Map(pool.flatMap(s => s.pairs.map(p => [`p:${s.id}:${p.join("/")}`, { set: s, pair: p }])));
+const slotKey = (pre, words) => new Map(words.map(w => [`${pre}:${w}`, { w }]));
+const CONFUSE = { "iː":["ɪ"], "ɪ":["iː","e"], "e":["æ","eɪ"], "æ":["ʌ","e"], "ʌ":["æ","ɒ"], "ɑː":["æ","ʌ"], "ɒ":["əʊ","ʌ","ɔː"], "ɔː":["əʊ","ɒ"], "ʊ":["uː"], "uː":["ʊ"], "ɜː":["ɔː","e"], "ə":["æ","e","ɒ","ʌ"], "eɪ":["e","aɪ"], "aɪ":["ɪ","eɪ"], "əʊ":["ɒ","ɔː"], "aʊ":["əʊ"], "ɪə":["iː"], "eə":["e"], "ɔɪ":["əʊ"], "ʊə":["uː"], "θ":["t","s","ð"], "ð":["d","θ"], "v":["b"], "b":["v"], "z":["s"], "s":["z"], "dʒ":["j","ʒ"], "j":["dʒ"], "ʃ":["tʃ"], "tʃ":["ʃ"], "ŋ":["n"] };
+const READ_WORDS = GAME_WORDS.filter(w => DICT.has(w));
+const DICT_WORDS = READ_WORDS.filter(w => { const tr = trOf(w); return tr.length >= 3 && tr.length <= 7; });
+const norm = p => p === "i" ? "iː" : p;
+const sylWord = s => s.replace(/-/g, "");
+const vowelsOf = w => trOf(w).filter(x => VOWELS.has(x.p));
+const stressOf = w => [vowelsOf(w).findIndex(x => x.st === 1)];
+const schwasOf = w => vowelsOf(w).flatMap((x, i) => x.p === "ə" ? [i] : []);
+const STRESS_WORDS = STRESS.filter(s => DICT.has(sylWord(s).toLowerCase()) && vowelsOf(sylWord(s)).length === s.split("-").length);
+const SCHWA_WORDS = STRESS_WORDS.filter(s => schwasOf(sylWord(s)).length);
+function bankFor(w) {
+  const tr = trOf(w).map(x => x.p), own = [...new Set(tr)];
+  const extra = shuffle([...new Set(tr.flatMap(p => CONFUSE[p] || []))].filter(p => !own.includes(p))).slice(0, Math.max(3, 9 - own.length));
+  return shuffle([...own, ...extra]);
+}
+function readChoices(w) {
+  const tr = trOf(w), right = ipaStr(tr), valid = new Set(lookup(w).trs.map(ipaStr));
+  const idx = tr.map((tk, i) => CONFUSE[tk.p] ? i : -1).filter(i => i >= 0);
+  if (idx.length < 2) return null;
+  const opts = new Map();
+  for (let k = 0; k < 40 && opts.size < 3; k++) {
+    const i = pick(idx), to = pick(CONFUSE[tr[i].p]);
+    const m = tr.map((tk, j) => j === i ? { p: to, st: tk.st } : tk), s = ipaStr(m);
+    if (!valid.has(s) && !opts.has(s)) opts.set(s, { from: tr[i].p, to });
+  }
+  return opts.size < 3 ? null : shuffle([{ s: right, ok: true }, ...[...opts].map(([s, d]) => ({ s, ok: false, ...d }))]);
+}
+const READ_POOL = READ_WORDS.filter(w => { const tr = trOf(w); return tr.filter(tk => CONFUSE[tk.p]).length >= 2; });
+const MAKE = {
+  pair: (scope, pool, n) => draw("pair:" + scope, pairMap(pool), n, bySet, weakness).map(it => ({ ...it, type: "pair", t: coin() })),
+  same: (scope, pool, n) => draw("same:" + scope, pairMap(pool), n, bySet, weakness).map(it => ({ ...it, type: "same", same: !coin(), t: coin() })),
+  sent: (scope, pool, n) => {
+    const ids = new Set(pool.map(s => s.id));
+    const map = new Map(SENTENCES.filter(s => ids.has(s.set)).map(s => [`s:${s.set}:${s.id}`, { set: setById(s.set), s, pair: s.pair }]));
+    return draw("sent:" + scope, map, n, bySet, weakness).map(it => ({ ...it, type: "sent", t: coin() }));
+  },
+  dict: (_, __, n) => draw("dict", slotKey("d", DICT_WORDS), n).map(it => ({ ...it, type: "dict", tr: trOf(it.w).map(x => x.p), bank: bankFor(it.w) })),
+  stress: (_, __, n) => draw("stress", slotKey("t", STRESS_WORDS), n).map(it => { const w = sylWord(it.w); return { ...it, type: "stress", syl: it.w.split("-"), w, right: stressOf(w) }; }),
+  schwa: (_, __, n) => draw("schwa", slotKey("a", SCHWA_WORDS), n).map(it => { const w = sylWord(it.w); return { ...it, type: "schwa", syl: it.w.split("-"), w, right: schwasOf(w) }; }),
+  weak: (_, __, n) => draw("weak", new Map(WEAK.map(s => [`w:${s.id}`, { s }])), n).map(it => ({ ...it, type: "weak", list: shuffle([it.s.w, ...it.s.alts]) })),
+  read: (_, __, n) => draw("read", slotKey("r", READ_POOL), n + 6).flatMap(it => { const list = readChoices(it.w); return list ? [{ ...it, type: "read", list }] : []; }).slice(0, n)
+};
+const ansHTML = (k, body, cls = "") => `<button class="ans ${cls}" data-k="${k}"${!game.played && QT[game.items[game.i].type].gate ? " disabled" : ""}>${body}</button>`;
+const wordAns = (w, k) => { const tr = trOf(w); return ansHTML(k, `<span class="w">${esc(shown(w))}</span><span class="ipa">${tr ? "/" + esc(ipaStr(tr)) + "/" : ""}</span>`); };
+const blank = s => esc(s).replace("___", '<span class="blank"></span>');
+const sentClip = (it, k) => `audio/s/${it.s.id}-${"ab"[k]}.mp3`;
+const sentText = (it, k) => it.s.t.replace("___", it.pair[k]);
+const QT = {
+  pair: { gate: true, ask: () => t(game.played ? "which" : "tap_play"), tag: it => pairLabel(it.set), why: it => tx(it.set.why), main: it => `<div class="answers">${it.pair.map(wordAns).join("")}</div>`,
+    right: it => [it.t], play: (it, slow) => sayWord(it.pair[it.t], slow),
+    after: (it, ok) => { const was = esc(t("was", { w: "\u0000" })).replace("\u0000", `<b>${esc(shown(it.pair[it.t]))}</b>`); return `${ok ? `<span class="ok">${esc(t("good"))}</span> ${was}` : `<span class="ko">${esc(t("almost"))}</span> ${was} ${esc(t("listen_both"))}`}<div class="row">${exHTML(it.pair[0], it.set.a)}${exHTML(it.pair[1], it.set.b)}</div>`; } },
+  same: { gate: true, ask: () => t(game.played ? "same_q" : "same_play"), tag: it => pairLabel(it.set), why: () => "", main: () => `<div class="answers">${[t("same_yes"), t("same_no")].map((s, k) => ansHTML(k, `<span class="w">${esc(s)}</span>`)).join("")}</div>`,
+    right: it => [it.same ? 0 : 1], play: async (it, slow) => { const [x, y] = it.same ? [it.t, it.t] : [it.t, 1 - it.t]; const my = ++seq; await sayWord(it.pair[x], slow); await wait(450); if (my === seq) await sayWord(it.pair[y], slow); },
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t(it.same ? "same_was_same" : "same_was_diff"))}<div class="row">${exHTML(it.pair[0], it.set.a)}${exHTML(it.pair[1], it.set.b)}</div>` },
+  sent: { gate: true, ask: () => t(game.played ? "sent_q" : "sent_play"), tag: it => pairLabel(it.set), why: () => "", prompt: it => `<div class="sentence" lang="en">${blank(it.s.t)}</div>`, main: it => `<div class="answers">${it.pair.map(wordAns).join("")}</div>`,
+    right: it => [it.t], play: (it, slow) => playClip(sentClip(it, it.t), sentText(it, it.t), slow),
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t("sent_both"))}<div class="row">${[0, 1].map(k => `<button class="btn" data-clip="${esc(sentClip(it, k))}" data-text="${esc(sentText(it, k))}">${PLAY}${esc(it.pair[k])}</button>`).join("")}</div>` },
+  dict: { gate: true, ask: () => t(game.played ? "dict_q" : "dict_play"), tag: () => "", why: () => "", main: it => `<div class="slots">${it.tr.map((_, i) => `<span class="slot${game.typed[i] ? " on" : ""}">${esc(game.typed[i] || "")}</span>`).join("")}</div>
+      <div class="bank">${it.bank.map(p => { const f = phon(p); return `<button class="ph" data-tok="${esc(p)}" data-kind="${f ? f.kind : "cons"}" data-voiced="${!!(f && f.voiced)}"${game.answered || !game.played ? " disabled" : ""}>${esc(p)}</button>`; }).join("")}</div>
+      <div class="rec-row"><button class="btn" id="dict-del"${game.answered || !game.typed.length ? " disabled" : ""}>${esc(t("dict_del"))}</button><button class="btn primary" id="dict-check"${game.answered || game.typed.length !== it.tr.length ? " disabled" : ""}>${esc(t("dict_check"))}</button></div>`,
+    play: (it, slow) => sayWord(it.w, slow),
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t("dict_was"))} <div class="row">${exHTML(it.w)}</div>` },
+  stress: { ask: () => t("stress_q"), tag: () => "", why: () => "", prompt: it => `<div class="word-big">${esc(shown(it.w))}</div>`, main: it => `<div class="sylls">${it.syl.map((s, k) => ansHTML(k, `<span class="w">${esc(s)}</span>`, "syl")).join("")}</div>`,
+    right: it => it.right, play: (it, slow) => sayWord(it.w, slow),
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t("stress_was", { s: it.syl[it.right[0]] }))}<div class="row">${exHTML(it.w)}</div>` },
+  schwa: { ask: () => t("schwa_q"), tag: () => "", why: () => "", prompt: it => `<div class="word-big">${esc(shown(it.w))}</div>`, main: it => `<div class="sylls">${it.syl.map((s, k) => ansHTML(k, `<span class="w">${esc(s)}</span>`, "syl")).join("")}</div>`,
+    right: it => it.right, play: (it, slow) => sayWord(it.w, slow),
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t("schwa_was", { s: it.right.map(k => it.syl[k]).join(", ") }))}<div class="row">${exHTML(it.w, "ə")}</div>` },
+  weak: { gate: true, ask: () => t(game.played ? "weak_q" : "weak_play"), tag: () => "", why: () => "", prompt: it => `<div class="sentence" lang="en">${blank(it.s.t)}</div>`, main: it => `<div class="answers three">${it.list.map((w, k) => ansHTML(k, `<span class="w">${esc(w)}</span>`)).join("")}</div>`,
+    right: it => [it.list.indexOf(it.s.w)], play: (it, slow) => playClip(`audio/s/${it.s.id}.mp3`, it.s.t.replace("___", it.s.w), slow),
+    after: (it, ok) => `<span class="${ok ? "ok" : "ko"}">${esc(t(ok ? "good" : "almost"))}</span> ${esc(t("weak_was", { w: it.s.w, weak: it.s.weak, strong: it.s.strong }))}` },
+  read: { ask: () => t("which_tr"), tag: () => "", why: () => "", prompt: it => `<div class="word-big">${esc(shown(it.w))}</div>`, main: it => `<div class="answers four">${it.list.map((o, k) => ansHTML(k, `<span class="ipa">/${esc(o.s)}/</span>`, "big")).join("")}</div>`,
+    right: it => [it.list.findIndex(o => o.ok)], play: (it, slow) => sayWord(it.w, slow),
+    after: (it, ok) => { if (ok) return `<span class="ok">${esc(t("good"))}</span>`; const o = it.list[game.pick], sym = id => { const p = phon(id); return `<span class="ipa">/${esc(id)}/</span>${p ? ` (${p.emoji} ${esc(p.kw)})` : ""}`; }; return `<span class="ko">${esc(t("wrong_tr", { to: "\u0001", from: "\u0002" }))}</span>`.replace("\u0001", sym(o.to)).replace("\u0002", sym(o.from)); } }
+};
 function renderSets() {
+  const box = $("#sets"), on = CONTRAST_MODES.has(game.mode);
+  box.hidden = !on;
+  if (!on) return;
   const pr = prof()?.prio || [];
-  const chip = (id, label, extra = "") => `<button class="setchip" data-set="${id}" aria-pressed="${pg.set === id}">${label}${extra}</button>`;
-  $("#sets").innerHTML = chip("mix", esc(prof() ? t("mix_l1", { lang: profLang() }) : t("mix_all")))
+  const chip = (id, label, extra = "") => `<button class="setchip" data-set="${id}" aria-pressed="${game.set === id}">${label}${extra}</button>`;
+  box.innerHTML = chip("mix", esc(prof() ? t("mix_l1", { lang: profLang() }) : t("mix_all")))
     + PAIRS.map(s => chip(s.id, `<span class="ipa">${pairLabel(s)}</span>`, pr.includes(s.id) ? `<span class="star" title="${esc(t("prio_title"))}">●</span>` : "")).join("");
 }
 $("#sets").addEventListener("click", e => {
   const b = e.target.closest("[data-set]"); if (!b) return;
-  pg.set = b.dataset.set; store.set("set", pg.set); renderSets(); newPairsGame();
+  game.set = b.dataset.set; store.set("set", game.set); newGame();
 });
-function newPairsGame() {
-  const pr = prof()?.prio;
-  const pool = pg.set === "mix" ? (pr ? PAIRS.filter(s => pr.includes(s.id)) : PAIRS) : PAIRS.filter(s => s.id === pg.set);
-  if (!pool.length) { pg.set = "mix"; return newPairsGame(); }
-  const items = [];
-  let last = "";
-  while (items.length < 10) {
-    const s = pick(pool), pair = pick(s.pairs), key = pair.join();
-    if (key === last && (pool.length > 1 || s.pairs.length > 1)) continue;
-    last = key;
-    items.push({ set: s, pair, t: Math.random() < .5 ? 0 : 1 });
-  }
-  Object.assign(pg, { items, i: 0, score: 0, res: [], played: false, answered: false });
-  renderSets(); renderPairs();
+function newGame() {
+  if (game.set !== "mix" && !setById(game.set)) game.set = "mix";
+  const items = game.mode === "today" ? DAILY_PLAN.flatMap(([ty, n]) => MAKE[ty]("mix", mixPool(), n)) : MAKE[game.mode](game.set, contrastPool(), 10);
+  Object.assign(game, { items, i: 0, score: 0, res: [], played: false, answered: false, pick: null, typed: [] });
+  renderSets(); renderGame();
 }
-function renderPairs() {
-  const g = $("#pg");
-  if (pg.i >= pg.items.length) {
-    const misses = pg.items.filter((_, k) => !pg.res[k]);
-    g.innerHTML = `<div class="end"><div class="score">${pg.score}/10</div><p>${esc(t(pg.score >= 9 ? "end_9" : pg.score >= 7 ? "end_7" : "end_low"))}</p>
-      ${misses.length ? `<div class="exs" style="justify-content:center">${misses.map(m => exHTML(m.pair[0], m.set.a) + exHTML(m.pair[1], m.set.b)).join("")}</div>` : ""}
-      <p style="margin-top:16px"><button class="btn primary" id="pg-again">${esc(t("again"))}</button></p></div>`;
-    $("#pg-again").onclick = newPairsGame;
-    return;
-  }
-  const it = pg.items[pg.i], s = it.set;
-  const dots = pg.items.map((_, k) => `<i class="${k < pg.i ? (pg.res[k] ? "ok" : "ko") : k === pg.i ? "now" : ""}"></i>`).join("");
-  g.innerHTML = `<div class="gtop"><span>${esc(t("round", { i: pg.i + 1 }))} · <span class="ipa">${pairLabel(s)}</span></span><span class="dots">${dots}</span></div>
-    <div class="gmain"><button class="bigplay" id="pg-play" aria-label="${esc(t("play_word"))}">${PLAY}</button>
-      <div class="gprompt"><span id="pg-q">${esc(t(pg.played ? "which" : "tap_play"))}</span> <button class="linkbtn" id="pg-slow">${esc(t("repeat_slow"))}</button><span class="why">${esc(tx(s.why))}</span></div></div>
-    <div class="answers">${it.pair.map((w, k) => { const tr = trOf(w); return `<button class="ans" data-k="${k}"${pg.played ? "" : " disabled"}><span class="w">${esc(shown(w))}</span><span class="ipa">${tr ? "/" + esc(ipaStr(tr)) + "/" : ""}</span></button>`; }).join("")}</div>
-    <div class="feedback" id="pg-fb"></div>
-    <div class="gfoot"><button class="btn primary" id="pg-next" ${pg.answered ? "" : "hidden"}>${esc(t("next"))}</button></div>`;
-  const target = it.pair[it.t];
-  const sayIt = rate => { pg.played = true; $$("#pg .ans").forEach(b => { if (!pg.answered) b.disabled = false; }); $("#pg-q").textContent = t("which"); return speak(target, rate); };
-  $("#pg-play").onclick = () => sayIt();
-  $("#pg-slow").onclick = () => sayIt(0.55);
-  $$("#pg .ans").forEach(b => b.onclick = () => {
-    if (pg.answered) return;
-    pg.answered = true;
-    const k = +b.dataset.k, ok = k === it.t;
-    pg.res[pg.i] = ok; if (ok) pg.score++;
-    const st = stats[s.id] || (stats[s.id] = { ok: 0, n: 0 }); st.n++; if (ok) st.ok++; store.set("stats", stats);
-    $$("#pg .ans").forEach(x => { x.disabled = true; if (+x.dataset.k === it.t) x.classList.add("right"); else if (x === b) x.classList.add("wrong"); });
-    const [a2, b2] = it.pair, was = esc(t("was", { w: "\u0000" })).replace("\u0000", `<b>${esc(shown(target))}</b>`);
-    $("#pg-fb").innerHTML = `${ok ? `<span class="ok">${esc(t("good"))}</span> ${was}` : `<span class="ko">${esc(t("almost"))}</span> ${was} ${esc(t("listen_both"))}`}
-      <div class="row">${exHTML(a2, s.a)}${exHTML(b2, s.b)}</div>`;
-    $("#pg-next").hidden = false; $("#pg-next").focus();
-    renderStats();
-  });
-  $("#pg-next").onclick = () => { pg.i++; pg.played = false; pg.answered = false; renderPairs(); if (pg.i < pg.items.length) $("#pg-play").click(); };
+function renderEnd(g) {
+  const n = game.items.length, ratio = n ? game.score / n : 0, misses = game.items.filter((it, k) => !game.res[k] && it.pair);
+  const log = game.mode === "today" ? dailyStreak(store.get("daily", {}), today()) : null;
+  if (log) store.set("daily", log);
+  g.innerHTML = `<div class="end"><div class="score">${game.score}/${n}</div><p>${esc(t(ratio >= .9 ? "end_9" : ratio >= .65 ? "end_7" : "end_low"))}</p>
+    ${log ? `<p class="muted">${esc(t("today_done", { n: log.streak }))}</p>` : ""}
+    ${misses.length ? `<div class="exs" style="justify-content:center">${misses.map(m => exHTML(m.pair[0], m.set.a) + exHTML(m.pair[1], m.set.b)).join("")}</div>` : ""}
+    <p style="margin-top:16px"><button class="btn primary" id="g-again">${esc(t("again"))}</button></p></div>`;
+  $("#g-again").onclick = newGame;
+  renderStats();
+}
+function playItem(it, slow) {
+  game.played = true;
+  stopAll();
+  const q = QT[it.type];
+  if (q.gate && !game.answered) { $$("#game .ans, #game .bank .ph").forEach(b => b.disabled = false); $("#g-q").textContent = q.ask(it); }
+  return q.play(it, slow);
+}
+function renderGame() {
+  const g = $("#game");
+  $("#game-lede").textContent = t("lede_" + game.mode);
+  if (game.i >= game.items.length) return renderEnd(g);
+  const it = game.items[game.i], q = QT[it.type], n = game.items.length, tag = q.tag(it), why = q.why(it);
+  const dots = game.items.map((_, k) => `<i class="${k < game.i ? (game.res[k] ? "ok" : "ko") : k === game.i ? "now" : ""}"></i>`).join("");
+  g.innerHTML = `<div class="gtop"><span>${esc(t("round", { i: game.i + 1, n }))}${tag ? ` · <span class="ipa">${tag}</span>` : ""}</span><span class="dots">${dots}</span></div>
+    <div class="gmain"><button class="bigplay" id="g-play" aria-label="${esc(t("play_word"))}">${PLAY}</button>
+      <div class="gprompt">${q.prompt ? q.prompt(it) : ""}<span id="g-q">${esc(q.ask(it))}</span> <button class="linkbtn" id="g-slow">${esc(t("repeat_slow"))}</button>${why ? `<span class="why">${esc(why)}</span>` : ""}</div></div>
+    ${q.main(it)}
+    <div class="feedback" id="g-fb"></div>
+    <div class="gfoot"><button class="btn primary" id="g-next" ${game.answered ? "" : "hidden"}>${esc(t("next"))}</button></div>`;
+  $("#g-play").onclick = () => playItem(it);
+  $("#g-slow").onclick = () => playItem(it, true);
+  $$("#game .ans").forEach(b => b.onclick = () => { if (!game.answered) settle(it, q.right(it).includes(+b.dataset.k), +b.dataset.k); });
+  $$("#game [data-tok]").forEach(b => b.onclick = () => { if (game.typed.length < it.tr.length) { game.typed.push(b.dataset.tok); renderGame(); } });
+  const del = $("#dict-del"), chk = $("#dict-check");
+  if (del) del.onclick = () => { game.typed.pop(); renderGame(); };
+  if (chk) chk.onclick = () => settle(it, lookup(it.w).trs.some(tr => tr.map(x => norm(x.p)).join(" ") === game.typed.map(norm).join(" ")), null);
+  $("#g-next").onclick = () => { game.i++; Object.assign(game, { played: false, answered: false, pick: null, typed: [] }); renderGame(); const nx = game.items[game.i]; if (nx && QT[nx.type].gate) playItem(nx); };
+  if (game.answered) reveal(it);
+}
+function reveal(it) {
+  const q = QT[it.type], ok = game.res[game.i];
+  if (q.right) { const r = q.right(it); $$("#game .ans").forEach(x => { x.disabled = true; const k = +x.dataset.k; if (r.includes(k)) x.classList.add("right"); else if (k === game.pick) x.classList.add("wrong"); }); }
+  $("#g-fb").innerHTML = q.after(it, ok);
+  $("#g-next").hidden = false;
+}
+function settle(it, ok, k) {
+  game.answered = true; game.pick = k; game.res[game.i] = ok; if (ok) game.score++;
+  cards[it.key] = grade(cards[it.key], ok, today()); store.set("cards", cards);
+  if (it.set) { const st = stats[it.set.id] || (stats[it.set.id] = { ok: 0, n: 0 }); st.n++; if (ok) st.ok++; store.set("stats", stats); }
+  if (it.type === "dict") renderGame(); else reveal(it);
+  $("#g-next").focus();
+  if (["stress", "schwa", "read"].includes(it.type)) sayWord(it.w);
+  renderStats();
 }
 function renderStats() {
   const rows = PAIRS.filter(s => stats[s.id]?.n).map(s => {
     const { ok, n } = stats[s.id], pct = Math.round(ok / n * 100);
     return `<div class="stat"><span class="ipa">/${esc(s.a)}/–${s.b ? "/" + esc(s.b) + "/" : "h"}</span><span class="meter"><i style="width:${pct}%"></i></span><span class="n">${pct}%</span></div>`;
   });
+  const keys = Object.keys(cards), due = dueCount(keys, cards, today()), streak = store.get("daily", {}).streak || 0;
   $("#stats").innerHTML = `<h3>${esc(t("stats_title"))}</h3><p class="muted" style="margin:0;font-size:13px">${esc(t(rows.length ? "stats_has" : "stats_none"))}</p>${rows.join("")}
-    ${rows.length ? `<p style="margin:14px 0 0"><button class="linkbtn" id="st-reset">${esc(t("stats_reset"))}</button></p>` : ""}`;
-  const r = $("#st-reset"); if (r) r.onclick = () => { for (const k in stats) delete stats[k]; store.set("stats", stats); renderStats(); };
-}
-
-/* practice: read the symbols */
-const CONFUSE = { "iː":["ɪ"], "ɪ":["iː","e"], "e":["æ","eɪ"], "æ":["ʌ","e"], "ʌ":["æ","ɒ"], "ɑː":["æ","ʌ"], "ɒ":["əʊ","ʌ","ɔː"], "ɔː":["əʊ","ɒ"], "ʊ":["uː"], "uː":["ʊ"], "ɜː":["ɔː","e"], "ə":["æ","e","ɒ","ʌ"], "eɪ":["e","aɪ"], "aɪ":["ɪ","eɪ"], "əʊ":["ɒ","ɔː"], "aʊ":["əʊ"], "ɪə":["iː"], "eə":["e"], "ɔɪ":["əʊ"], "ʊə":["uː"], "θ":["t","s","ð"], "ð":["d","θ"], "v":["b"], "b":["v"], "z":["s"], "s":["z"], "dʒ":["j","ʒ"], "j":["dʒ"], "ʃ":["tʃ"], "tʃ":["ʃ"], "ŋ":["n"] };
-const READ_WORDS = GAME_WORDS.filter(w => DICT.has(w));
-const rg = { i: 0, score: 0, res: [], q: null, answered: false, pick: null };
-function makeQ() {
-  for (let tries = 0; tries < 50; tries++) {
-    const w = pick(READ_WORDS), tr = trOf(w), right = ipaStr(tr);
-    const valid = new Set(lookup(w).trs.map(ipaStr));
-    const idx = tr.map((tk, i) => CONFUSE[tk.p] ? i : -1).filter(i => i >= 0);
-    if (idx.length < 2) continue;
-    const opts = new Map();
-    for (let k = 0; k < 40 && opts.size < 3; k++) {
-      const i = pick(idx), to = pick(CONFUSE[tr[i].p]);
-      const m = tr.map((tk, j) => j === i ? { p: to, st: tk.st } : tk), s = ipaStr(m);
-      if (!valid.has(s) && !opts.has(s)) opts.set(s, { from: tr[i].p, to });
-    }
-    if (opts.size < 3) continue;
-    return { w, list: shuffle([{ s: right, ok: true }, ...[...opts].map(([s, d]) => ({ s, ok: false, ...d }))]) };
-  }
-}
-function newReadGame() { Object.assign(rg, { i: 0, score: 0, res: [], q: makeQ(), answered: false, pick: null }); renderRead(); }
-function renderRead() {
-  const g = $("#rg");
-  if (rg.i >= 10) {
-    g.innerHTML = `<div class="end"><div class="score">${rg.score}/10</div><p>${esc(t(rg.score >= 9 ? "read_end_9" : rg.score >= 6 ? "read_end_6" : "read_end_low"))}</p><p><button class="btn primary" id="rg-again">${esc(t("again"))}</button></p></div>`;
-    $("#rg-again").onclick = newReadGame;
-    return;
-  }
-  const q = rg.q;
-  const dots = Array.from({ length: 10 }, (_, k) => `<i class="${k < rg.i ? (rg.res[k] ? "ok" : "ko") : k === rg.i ? "now" : ""}"></i>`).join("");
-  g.innerHTML = `<div class="gtop"><span>${esc(t("question", { i: rg.i + 1 }))}</span><span class="dots">${dots}</span></div>
-    <div class="gmain"><button class="bigplay" data-say="${esc(q.w)}" aria-label="${esc(t("tx_listen", { w: q.w }))}">${PLAY}</button>
-      <div><div class="word-big">${esc(shown(q.w))}</div><div class="muted" style="font-size:14px">${esc(t("which_tr"))}</div></div></div>
-    <div class="answers four">${q.list.map((o, k) => `<button class="ans big" data-k="${k}"><span class="ipa">/${esc(o.s)}/</span></button>`).join("")}</div>
-    <div class="feedback" id="rg-fb"></div>
-    <div class="gfoot"><button class="btn primary" id="rg-next" hidden>${esc(t("next"))}</button></div>`;
-  const reveal = k => {
-    const o = q.list[k];
-    $$("#rg .ans").forEach(x => { x.disabled = true; const ox = q.list[+x.dataset.k]; if (ox.ok) x.classList.add("right"); else if (+x.dataset.k === k) x.classList.add("wrong"); });
-    const sym = id => { const p = phon(id); return `<span class="ipa">/${esc(id)}/</span>${p ? ` (${p.emoji} ${esc(p.kw)})` : ""}`; };
-    $("#rg-fb").innerHTML = o.ok ? `<span class="ok">${esc(t("good"))}</span>` : `<span class="ko">${esc(t("wrong_tr", { to: "\u0001", from: "\u0002" }))}</span>`.replace("\u0001", sym(o.to)).replace("\u0002", sym(o.from));
-    $("#rg-next").hidden = false;
-  };
-  if (rg.answered) reveal(rg.pick);
-  $$("#rg .ans").forEach(b => b.onclick = () => {
-    if (rg.answered) return;
-    rg.answered = true; rg.pick = +b.dataset.k;
-    const o = q.list[rg.pick];
-    rg.res[rg.i] = o.ok; if (o.ok) rg.score++;
-    reveal(rg.pick);
-    $("#rg-next").focus();
-    speak(q.w);
-  });
-  $("#rg-next").onclick = () => { rg.i++; rg.q = makeQ(); rg.answered = false; rg.pick = null; renderRead(); };
+    ${keys.length ? `<p class="muted" style="margin:12px 0 0;font-size:13px">${esc(t("stats_due", { n: due }))}${streak ? " · " + esc(t("stats_streak", { n: streak })) : ""}</p>` : ""}
+    ${rows.length || keys.length ? `<p style="margin:14px 0 0"><button class="linkbtn" id="st-reset">${esc(t("stats_reset"))}</button></p>` : ""}`;
+  const r = $("#st-reset");
+  if (r) r.onclick = () => { for (const o of [stats, cards, decks]) for (const k in o) delete o[k]; store.set("stats", stats); store.set("cards", cards); store.set("decks", decks); store.set("daily", {}); renderStats(); };
 }
 function setMode(m) {
+  game.mode = m; store.set("mode", m);
   $$("#mode button").forEach(b => b.setAttribute("aria-pressed", b.dataset.m === m));
-  $("#m-pairs").hidden = m !== "pairs"; $("#m-read").hidden = m !== "read";
-  store.set("mode", m);
+  newGame();
 }
 $$("#mode button").forEach(b => b.addEventListener("click", () => setMode(b.dataset.m)));
 
@@ -1182,11 +1326,8 @@ renderTiles();
 applyFilter();
 renderFicha();
 renderTx();
-renderSets();
-newPairsGame();
-newReadGame();
-renderStats();
 renderRuta();
-setMode(store.get("mode", "pairs"));
+setMode(game.mode);
+renderStats();
 go((location.hash || "").slice(1) || "tabla", false);
 </script>
