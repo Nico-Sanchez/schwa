@@ -1,6 +1,7 @@
 import sys, re, collections
 src, out = sys.argv[1], sys.argv[2]
 MAP = {"ɐ":"ʌ","ɹ":"r","ɛ":"e","ɛə":"eə"}
+EXTRA = {"soot": ["s ˈʊ t"], "wooed": ["w ˈuː d"], "cooed": ["k ˈuː d"], "shooed": ["ʃ ˈuː d"]}
 entries = collections.OrderedDict()
 for line in open(src, encoding="utf-8"):
     line = line.rstrip("\n")
@@ -16,6 +17,7 @@ for line in open(src, encoding="utf-8"):
     entries.setdefault(w, [])
     tr = " ".join(toks)
     if tr not in entries[w]: entries[w].append(tr)
+entries.update(EXTRA)
 with open(out, "w", encoding="utf-8") as f:
     f.write("\n".join(w + "|" + ";".join(v) for w, v in entries.items()))
 syms = collections.Counter(t.lstrip("ˈˌ") for v in entries.values() for tr in v for t in tr.split())

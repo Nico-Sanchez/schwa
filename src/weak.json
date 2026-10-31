@@ -1,0 +1,332 @@
+[
+{
+"id": "weak-1",
+"t": "a cup ___ tea",
+"w": "of",
+"alts": [
+"off",
+"or"
+],
+"weak": "əv",
+"strong": "ɒv"
+},
+{
+"id": "weak-2",
+"t": "fish ___ chips",
+"w": "and",
+"alts": [
+"in",
+"on"
+],
+"weak": "ənd",
+"strong": "ænd"
+},
+{
+"id": "weak-3",
+"t": "I want ___ go home.",
+"w": "to",
+"alts": [
+"the",
+"two"
+],
+"weak": "tə",
+"strong": "tuː"
+},
+{
+"id": "weak-4",
+"t": "It's ___ you.",
+"w": "for",
+"alts": [
+"from",
+"far"
+],
+"weak": "fə",
+"strong": "fɔː"
+},
+{
+"id": "weak-5",
+"t": "Where ___ you from?",
+"w": "are",
+"alts": [
+"or",
+"our"
+],
+"weak": "ə",
+"strong": "ɑː"
+},
+{
+"id": "weak-6",
+"t": "She ___ here yesterday.",
+"w": "was",
+"alts": [
+"has",
+"is"
+],
+"weak": "wəz",
+"strong": "wɒz"
+},
+{
+"id": "weak-7",
+"t": "They ___ very tired.",
+"w": "were",
+"alts": [
+"are",
+"where"
+],
+"weak": "wə",
+"strong": "wɜː"
+},
+{
+"id": "weak-8",
+"t": "I ___ swim.",
+"w": "can",
+"alts": [
+"can't",
+"could"
+],
+"weak": "kən",
+"strong": "kæn"
+},
+{
+"id": "weak-9",
+"t": "Can you give ___ a call?",
+"w": "her",
+"alts": [
+"him",
+"them"
+],
+"weak": "hə",
+"strong": "hɜː"
+},
+{
+"id": "weak-10",
+"t": "Tell ___ to come in.",
+"w": "them",
+"alts": [
+"him",
+"her"
+],
+"weak": "ðəm",
+"strong": "ðem"
+},
+{
+"id": "weak-11",
+"t": "I'd like ___ water.",
+"w": "some",
+"alts": [
+"the",
+"same"
+],
+"weak": "səm",
+"strong": "sʌm"
+},
+{
+"id": "weak-12",
+"t": "Have you got ___ minute?",
+"w": "a",
+"alts": [
+"the",
+"one"
+],
+"weak": "ə",
+"strong": "eɪ"
+},
+{
+"id": "weak-13",
+"t": "Let's meet ___ the station.",
+"w": "at",
+"alts": [
+"in",
+"on"
+],
+"weak": "ət",
+"strong": "æt"
+},
+{
+"id": "weak-14",
+"t": "It's ___ best one.",
+"w": "the",
+"alts": [
+"a",
+"her"
+],
+"weak": "ðə",
+"strong": "ðiː"
+},
+{
+"id": "weak-15",
+"t": "What ___ you want?",
+"w": "do",
+"alts": [
+"did",
+"does"
+],
+"weak": "də",
+"strong": "duː"
+},
+{
+"id": "weak-16",
+"t": "He ___ finished.",
+"w": "has",
+"alts": [
+"is",
+"was"
+],
+"weak": "həz",
+"strong": "hæz"
+},
+{
+"id": "weak-17",
+"t": "We ___ seen it.",
+"w": "have",
+"alts": [
+"had",
+"are"
+],
+"weak": "həv",
+"strong": "hæv"
+},
+{
+"id": "weak-18",
+"t": "It comes ___ Spain.",
+"w": "from",
+"alts": [
+"for",
+"to"
+],
+"weak": "frəm",
+"strong": "frɒm"
+},
+{
+"id": "weak-19",
+"t": "You ___ try it.",
+"w": "must",
+"alts": [
+"much",
+"may"
+],
+"weak": "məst",
+"strong": "mʌst"
+},
+{
+"id": "weak-20",
+"t": "He ___ come later.",
+"w": "could",
+"alts": [
+"would",
+"should"
+],
+"weak": "kəd",
+"strong": "kʊd"
+},
+{
+"id": "weak-21",
+"t": "I ___ love to.",
+"w": "would",
+"alts": [
+"could",
+"should"
+],
+"weak": "wəd",
+"strong": "wʊd"
+},
+{
+"id": "weak-22",
+"t": "You ___ ask her.",
+"w": "should",
+"alts": [
+"could",
+"would"
+],
+"weak": "ʃəd",
+"strong": "ʃʊd"
+},
+{
+"id": "weak-23",
+"t": "bread ___ butter",
+"w": "and",
+"alts": [
+"or",
+"in"
+],
+"weak": "ənd",
+"strong": "ænd"
+},
+{
+"id": "weak-24",
+"t": "two ___ three",
+"w": "or",
+"alts": [
+"are",
+"and"
+],
+"weak": "ə",
+"strong": "ɔː"
+},
+{
+"id": "weak-25",
+"t": "as soon ___ possible",
+"w": "as",
+"alts": [
+"is",
+"us"
+],
+"weak": "əz",
+"strong": "æz"
+},
+{
+"id": "weak-26",
+"t": "It's better ___ before.",
+"w": "than",
+"alts": [
+"then",
+"that"
+],
+"weak": "ðən",
+"strong": "ðæn"
+},
+{
+"id": "weak-27",
+"t": "I think ___ he's right.",
+"w": "that",
+"alts": [
+"than",
+"the"
+],
+"weak": "ðət",
+"strong": "ðæt"
+},
+{
+"id": "weak-28",
+"t": "a lot ___ people",
+"w": "of",
+"alts": [
+"or",
+"on"
+],
+"weak": "əv",
+"strong": "ɒv"
+},
+{
+"id": "weak-29",
+"t": "Thank you ___ coming.",
+"w": "for",
+"alts": [
+"from",
+"far"
+],
+"weak": "fə",
+"strong": "fɔː"
+},
+{
+"id": "weak-30",
+"t": "Give it ___ me.",
+"w": "to",
+"alts": [
+"the",
+"two"
+],
+"weak": "tə",
+"strong": "tuː"
+}
+]

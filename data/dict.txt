@@ -12566,7 +12566,7 @@ sony|s ˈəʊ n i
 soon|s ˈuː n
 sooner|s ˈuː n ə
 soonest|s ˈuː n ɪ s t
-soot|s ˈuː t
+soot|s ˈʊ t
 sophie|s ˈəʊ f i
 sophisticated|s ə f ˈɪ s t ɪ k ˌeɪ t ɪ d
 soppy|s ˈɒ p i
@@ -15204,3 +15204,6 @@ zoning|z ˈəʊ n ɪ ŋ
 zoo|z ˈuː
 zoom|z ˈuː m
 zoophilia|z ˌəʊ ə f ˈɪ l ɪə
+wooed|w ˈuː d
+cooed|k ˈuː d
+shooed|ʃ ˈuː d

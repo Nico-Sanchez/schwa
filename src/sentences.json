@@ -1,0 +1,569 @@
+[
+{
+"id": "ii-i-1",
+"set": "ii-i",
+"t": "Look at that ___ over there.",
+"pair": [
+"sheep",
+"ship"
+]
+},
+{
+"id": "ii-i-2",
+"set": "ii-i",
+"t": "Can you ___ the glass?",
+"pair": [
+"feel",
+"fill"
+]
+},
+{
+"id": "ii-i-3",
+"set": "ii-i",
+"t": "Try not to ___ on the train.",
+"pair": [
+"sleep",
+"slip"
+]
+},
+{
+"id": "ii-i-4",
+"set": "ii-i",
+"t": "They ___ him in the end.",
+"pair": [
+"beat",
+"bit"
+]
+},
+{
+"id": "ii-i-5",
+"set": "ii-i",
+"t": "The ___ fell on the floor.",
+"pair": [
+"bean",
+"bin"
+]
+},
+{
+"id": "ae-uh-1",
+"set": "ae-uh",
+"t": "I need a clean ___.",
+"pair": [
+"cap",
+"cup"
+]
+},
+{
+"id": "ae-uh-2",
+"set": "ae-uh",
+"t": "Where's the little ___?",
+"pair": [
+"hat",
+"hut"
+]
+},
+{
+"id": "ae-uh-3",
+"set": "ae-uh",
+"t": "There's a ___ on the floor.",
+"pair": [
+"bag",
+"bug"
+]
+},
+{
+"id": "ae-uh-4",
+"set": "ae-uh",
+"t": "They ___ every morning.",
+"pair": [
+"ran",
+"run"
+]
+},
+{
+"id": "e-ae-1",
+"set": "e-ae",
+"t": "I put it in the ___.",
+"pair": [
+"pen",
+"pan"
+]
+},
+{
+"id": "e-ae-2",
+"set": "e-ae",
+"t": "We ___ at the table.",
+"pair": [
+"set",
+"sat"
+]
+},
+{
+"id": "e-ae-3",
+"set": "e-ae",
+"t": "Can you ___ here?",
+"pair": [
+"lend",
+"land"
+]
+},
+{
+"id": "u-uu-1",
+"set": "u-uu",
+"t": "His ___ was black.",
+"pair": [
+"soot",
+"suit"
+]
+},
+{
+"id": "u-uu-2",
+"set": "u-uu",
+"t": "The ___ was very strong.",
+"pair": [
+"pull",
+"pool"
+]
+},
+{
+"id": "o-ou-1",
+"set": "o-ou",
+"t": "The ___ is very long.",
+"pair": [
+"rod",
+"road"
+]
+},
+{
+"id": "o-ou-2",
+"set": "o-ou",
+"t": "What a lovely ___!",
+"pair": [
+"cot",
+"coat"
+]
+},
+{
+"id": "o-ou-3",
+"set": "o-ou",
+"t": "Where's the ___?",
+"pair": [
+"clock",
+"cloak"
+]
+},
+{
+"id": "o-ou-4",
+"set": "o-ou",
+"t": "We found the ___.",
+"pair": [
+"cod",
+"code"
+]
+},
+{
+"id": "oo-ou-1",
+"set": "oo-ou",
+"t": "I ___ at seven.",
+"pair": [
+"walk",
+"woke"
+]
+},
+{
+"id": "oo-ou-2",
+"set": "oo-ou",
+"t": "It's a big ___.",
+"pair": [
+"ball",
+"bowl"
+]
+},
+{
+"id": "oo-ou-3",
+"set": "oo-ou",
+"t": "It was ___ yesterday.",
+"pair": [
+"called",
+"cold"
+]
+},
+{
+"id": "oo-ou-4",
+"set": "oo-ou",
+"t": "We saw him at the ___.",
+"pair": [
+"hall",
+"hole"
+]
+},
+{
+"id": "er-oo-1",
+"set": "er-oo",
+"t": "He ___ on Sundays.",
+"pair": [
+"works",
+"walks"
+]
+},
+{
+"id": "er-oo-2",
+"set": "er-oo",
+"t": "Look at the ___.",
+"pair": [
+"bird",
+"board"
+]
+},
+{
+"id": "er-oo-3",
+"set": "er-oo",
+"t": "It's a big ___.",
+"pair": [
+"firm",
+"form"
+]
+},
+{
+"id": "er-oo-4",
+"set": "er-oo",
+"t": "We ___ all day.",
+"pair": [
+"work",
+"walk"
+]
+},
+{
+"id": "ei-e-1",
+"set": "ei-e",
+"t": "I've got a bad ___.",
+"pair": [
+"pain",
+"pen"
+]
+},
+{
+"id": "ei-e-2",
+"set": "ei-e",
+"t": "Don't ___ it.",
+"pair": [
+"wait",
+"wet"
+]
+},
+{
+"id": "ei-e-3",
+"set": "ei-e",
+"t": "We had a ___ yesterday.",
+"pair": [
+"taste",
+"test"
+]
+},
+{
+"id": "ei-e-4",
+"set": "ei-e",
+"t": "We have a ___.",
+"pair": [
+"date",
+"debt"
+]
+},
+{
+"id": "b-v-1",
+"set": "b-v",
+"t": "It's a small ___.",
+"pair": [
+"boat",
+"vote"
+]
+},
+{
+"id": "b-v-2",
+"set": "b-v",
+"t": "I like your ___.",
+"pair": [
+"best",
+"vest"
+]
+},
+{
+"id": "b-v-3",
+"set": "b-v",
+"t": "We saw the ___.",
+"pair": [
+"ban",
+"van"
+]
+},
+{
+"id": "b-v-4",
+"set": "b-v",
+"t": "It's a good ___.",
+"pair": [
+"bet",
+"vet"
+]
+},
+{
+"id": "s-z-1",
+"set": "s-z",
+"t": "What a great ___.",
+"pair": [
+"price",
+"prize"
+]
+},
+{
+"id": "s-z-2",
+"set": "s-z",
+"t": "Look at the ___.",
+"pair": [
+"ice",
+"eyes"
+]
+},
+{
+"id": "s-z-3",
+"set": "s-z",
+"t": "Can you hear the ___?",
+"pair": [
+"bus",
+"buzz"
+]
+},
+{
+"id": "s-z-4",
+"set": "s-z",
+"t": "We're waiting for the ___.",
+"pair": [
+"rice",
+"rise"
+]
+},
+{
+"id": "s-z-5",
+"set": "s-z",
+"t": "We want ___.",
+"pair": [
+"peace",
+"peas"
+]
+},
+{
+"id": "th-t-1",
+"set": "th-t",
+"t": "I ___ him.",
+"pair": [
+"thought",
+"taught"
+]
+},
+{
+"id": "th-t-2",
+"set": "th-t",
+"t": "It's the ___ of the book.",
+"pair": [
+"theme",
+"team"
+]
+},
+{
+"id": "th-t-3",
+"set": "th-t",
+"t": "That's a long ___.",
+"pair": [
+"path",
+"part"
+]
+},
+{
+"id": "th-t-4",
+"set": "th-t",
+"t": "It's a matter of ___.",
+"pair": [
+"faith",
+"fate"
+]
+},
+{
+"id": "th-s-1",
+"set": "th-s",
+"t": "It's a big ___.",
+"pair": [
+"mouth",
+"mouse"
+]
+},
+{
+"id": "th-s-2",
+"set": "th-s",
+"t": "He's very ___.",
+"pair": [
+"thick",
+"sick"
+]
+},
+{
+"id": "th-s-3",
+"set": "th-s",
+"t": "They ___ fast.",
+"pair": [
+"think",
+"sink"
+]
+},
+{
+"id": "th-s-4",
+"set": "th-s",
+"t": "That's a long ___.",
+"pair": [
+"path",
+"pass"
+]
+},
+{
+"id": "dh-d-1",
+"set": "dh-d",
+"t": "It was a ___ change.",
+"pair": [
+"southern",
+"sudden"
+]
+},
+{
+"id": "dh-d-2",
+"set": "dh-d",
+"t": "They ___ here.",
+"pair": [
+"breathe",
+"breed"
+]
+},
+{
+"id": "dh-d-3",
+"set": "dh-d",
+"t": "The ___ is very good.",
+"pair": [
+"heather",
+"header"
+]
+},
+{
+"id": "y-dj-1",
+"set": "y-dj",
+"t": "I'd like some ___.",
+"pair": [
+"yam",
+"jam"
+]
+},
+{
+"id": "y-dj-2",
+"set": "y-dj",
+"t": "It's a good ___.",
+"pair": [
+"yolk",
+"joke"
+]
+},
+{
+"id": "y-dj-3",
+"set": "y-dj",
+"t": "He went to ___.",
+"pair": [
+"yale",
+"jail"
+]
+},
+{
+"id": "sh-ch-1",
+"set": "sh-ch",
+"t": "Put it in the ___.",
+"pair": [
+"dish",
+"ditch"
+]
+},
+{
+"id": "sh-ch-2",
+"set": "sh-ch",
+"t": "It's a big ___.",
+"pair": [
+"ship",
+"chip"
+]
+},
+{
+"id": "sh-ch-3",
+"set": "sh-ch",
+"t": "Where's the ___?",
+"pair": [
+"shop",
+"chop"
+]
+},
+{
+"id": "sh-ch-4",
+"set": "sh-ch",
+"t": "I'll ___ the car.",
+"pair": [
+"wash",
+"watch"
+]
+},
+{
+"id": "n-ng-1",
+"set": "n-ng",
+"t": "They ___ all the time.",
+"pair": [
+"sin",
+"sing"
+]
+},
+{
+"id": "n-ng-2",
+"set": "n-ng",
+"t": "They ___ the bell.",
+"pair": [
+"ran",
+"rang"
+]
+},
+{
+"id": "n-ng-3",
+"set": "n-ng",
+"t": "It has a big ___.",
+"pair": [
+"fan",
+"fang"
+]
+},
+{
+"id": "h-0-1",
+"set": "h-0",
+"t": "The ___ is dirty.",
+"pair": [
+"hair",
+"air"
+]
+},
+{
+"id": "h-0-2",
+"set": "h-0",
+"t": "We can ___ it.",
+"pair": [
+"heat",
+"eat"
+]
+},
+{
+"id": "h-0-3",
+"set": "h-0",
+"t": "It was the ___ of the city.",
+"pair": [
+"heart",
+"art"
+]
+}
+]
