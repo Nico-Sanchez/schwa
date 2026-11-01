@@ -1,29 +1,18 @@
 const CACHE = "schwa-__VERSION__";
-const AUDIO = "schwa-audio-__AUDIO_VERSION__";
 const FONTS = "schwa-fonts";
 const ASSETS = __ASSETS__;
-const LATER = __LATER__;
 
 self.addEventListener("install", e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS.map(a => new Request(a, { cache: "reload" })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k.startsWith("schwa-") && k !== CACHE && k !== AUDIO && k !== FONTS).map(k => caches.delete(k))))
+      .then(keys => Promise.all(keys.filter(k => k.startsWith("schwa-") && k !== CACHE && k !== FONTS).map(k => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
-
-async function fillAudio() {
-  const c = await caches.open(AUDIO);
-  const have = new Set((await c.keys()).map(r => new URL(r.url).pathname));
-  const base = new URL("./", location.href).pathname;
-  const todo = LATER.filter(a => !have.has(base + a));
-  for (let i = 0; i < todo.length; i += 12) await Promise.all(todo.slice(i, i + 12).map(a => c.add(a).catch(() => {})));
-}
-self.addEventListener("message", e => { if (e.data === "fill-audio") e.waitUntil(fillAudio()); });
 
 // Safari only plays cached audio when a Range request gets a real 206.
 async function withRange(req, res) {

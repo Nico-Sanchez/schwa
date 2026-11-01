@@ -10,7 +10,7 @@ The 44 sounds of English, with the symbols Oxford and Cambridge use, explained f
 - **Record yourself:** hear your attempt at the model's volume and get plain-language feedback on fricatives and, after a 10-second calibration, on vowels. The spectrogram stays one tap away.
 - Interface in English and Spanish. Native-language notes so far: Spanish (Latin America, Spain, Río de la Plata).
 
-One synthetic voice reads every sound, word and sentence, so comparisons always have the same speaker at the same volume. Only text typed into Transcribe falls back to a voice on the device.
+Sound recordings are human and come from several speakers. Words and sentences are read by a voice on the device, which you can pick in the header.
 
 ## Build
 
@@ -22,18 +22,18 @@ python3 -I src/build.py src site/schwa.html
 
 ## Audio
 
-`src/voice.py` generates every clip in `site/audio` with [Kokoro](https://huggingface.co/hexgrad/Kokoro-82M), reading the app's own transcriptions so the audio always matches the IPA on screen. It needs `kokoro-onnx`, `scipy` and `ffmpeg`, plus `kokoro-v1.0.onnx` and `voices-v1.0.bin` in a model folder:
+`site/audio` holds the sound recordings from Wikimedia Commons; `src/commons.json` lists each source and licence. `src/convert.sh` trims the originals and `src/level.py` brings them all to the same loudness (it needs `scipy` and `ffmpeg`):
 
 ```sh
-python3 src/voice.py <model-folder> src site
+python3 src/level.py site/audio
 ```
 
-The voice is an even blend of `bf_emma` and `bm_fable`: Emma alone was the most intelligible but compressed the vowel contrasts, and the blend keeps most of that clarity with much wider vowels. Set `SCHWA_VOICES` to try another mix. It skips clips that already exist; pass `--force` to regenerate them. Run it after adding pairs, sentences or words, then rebuild.
+The diphthongs have no recording, so the device voice reads them.
 
 To add a native language, add a profile to `src/l1.json` (notes per phoneme, difficulty, priority contrasts); a profile can extend another with `base`.
 
 ## Credits
 
-- Voice: [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) by hexgrad, Apache 2.0.
+- Isolated sound recordings: [Wikimedia Commons](https://commons.wikimedia.org/wiki/Category:IPA_sounds), CC BY-SA 3.0 (Denelson83, Peter Isotalo, Erutuon and others; /dʒ/ is public domain).
 - Pronunciations: [Britfone](https://github.com/JoseLlarena/Britfone) by José Llarena, MIT licence (`data/LICENSE.txt`), converted to the Oxford symbol set.
 - Icon set in [Gentium Book Plus](https://software.sil.org/gentium/) (SIL Open Font License).
